@@ -1,5 +1,4 @@
 __author__ = "Binayak Tiwari"
-__license__ = "GPL"
 __version__ = "1.0.1"
 __maintainer__ =  "Binayak Tiwari"
 __email__ = "binayaktiwari@gmail.com"
@@ -12,34 +11,43 @@ PLA_COMMENT = re.compile(r"^#(.*$)")
 PLA_TYPE = re.compile(r'^.type\s+(f|r|fr|fd|dr|fdr)$') 
 PLA_INP= re.compile(r'^.i\s+((\d)+)$')
 PLA_OUT= re.compile(r'^.o\s+((\d)+)$')
-PLA_ILB = re.compile(r'^.ilb\s+((\w+\s?)+)$')
-PLA_OB= re.compile(r'^.ob\s+((\w+\s?)+)$')
+PLA_ILB = re.compile(r'^.ilb\s+((\w+\s?)+)\s?$')
+PLA_OB= re.compile(r'^.ob\s+((\w+\s?)+)\s?$')
 PLA_P= re.compile(r'^.p\s+((\d)+)$')
 PLA_TT= re.compile(r"^([01-]+)\s+([01-]+)$")
+PLA_CODE = {'0':0, '1':1, '-':2}
+PLA_TYPE_INT = {'f':0,'r':1,'fr':2,'fd':3,'dr':'4','fdr':5}
+
 
 f = open(_PLA_FILENAME,"r")
 s = f.readlines()
+
+d = dict(N_IP=None, N_OP=None,IP_LABEL=None, OP_LABEL=None,N_P=None, TYPE=None, TT=set())
 
 for lines in s:
     #print (lines)
     catch_TYPE = PLA_TYPE.match(lines)
     if(catch_TYPE):
         try:
-            print("TYPE:",catch_TYPE.group(1))
+            type_int = tuple(PLA_TYPE_INT[c] for c in catch_TYPE.groups() )
+            d['TYPE'] = int(type_int[0])
+            #print("TYPE:",type_int)
         except Exception:
             print("Error in .type description")
 
     catch_INP = PLA_INP.match(lines)
     if(catch_INP):
         try:
-            print("Input:",catch_INP.group(1))
+            d['N_IP'] = int(catch_INP.group(1))
+            #print("Input:",catch_INP.group(1))
         except Exception:
             print("Error in .i description")
 
     catch_OUT = PLA_OUT.match(lines)
     if(catch_OUT):
         try:
-            print("Output",catch_OUT.group(1))
+            d['N_OP'] = int(catch_OUT.group(1))
+            #print("Output",catch_OUT.group(1))
         except Exception:
             print("Error in .o description")
 
@@ -53,35 +61,36 @@ for lines in s:
     catch_ILB = PLA_ILB.match(lines)
     if(catch_ILB):
         try:
-            print("Ip Signals:",catch_ILB.group(1))
+            d['IP_LABEL'] = catch_ILB.group(1).split()
+            #print("Ip Signals:",catch_ILB.group(1))
         except Exception:
             print("Error in .ilb description")
 
     catch_OB = PLA_OB.match(lines)
     if(catch_OB):
         try:
-            print("Op Signals:",catch_OB.group(1))
+            d['OP_LABEL'] = catch_OB.group(1).split()
+            #print("Op Signals:",catch_OB.group(1))
         except Exception:
             print("Error in .ob description")
     
     catch_P = PLA_P.match(lines)
     if(catch_P):
         try:
-            print("Row in TT:",catch_P.group(1))
+            d['N_P'] = int(catch_P.group(1))
+            #print("Row in TT:",catch_P.group(1))
         except Exception:
             print("Error in .p description")
 
     catch_TT = PLA_TT.match(lines)
     if(catch_TT):
         try:
-            print(catch_TT.group(1),catch_TT.group(2) )
+            ip , op = catch_TT.groups()
+            inp_ = tuple(PLA_CODE[c] for c in ip)
+            out_ = tuple(PLA_CODE[c] for c in op)
+            d['TT'].add((inp_,out_))
+            #print(inp_, out_)
         except Exception:
             print("Error in Truth Table description")
 
-
-
-#s = ".ilb in1 input carry enable"
-
-#print((re.compile(r"^.ilb\s+(\w+(?:\s+\w+)*)$")).match(s))
-#print((re.compile(r'^.ilb\s+((\w+\s?)+)$')).match(s).group(1))
-
+print(d)

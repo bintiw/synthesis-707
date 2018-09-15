@@ -2,8 +2,8 @@
 .type fr
 .i 12
 .o 1
-.ilb x0 x1 x2
-.ob y0
+.ilb x0 x1 x2  
+.ob y0  
 .p 8
 000 0
 001 0
