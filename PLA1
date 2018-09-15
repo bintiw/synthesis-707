@@ -1,0 +1,16 @@
+#This is a test PLA File
+.type fr
+.i 12
+.o 1
+.ilb x0 x1 x2
+.ob y0
+.p 8
+000 0
+001 0
+010 0
+011 0
+100 0
+101 0
+110 0
+111 1
+.e
