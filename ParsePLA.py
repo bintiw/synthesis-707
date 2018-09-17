@@ -23,7 +23,7 @@ f = open(_PLA_FILENAME,"r")
 s = f.readlines()
 
 d = dict(N_IP=None, N_OP=None,IP_LABEL=None, OP_LABEL=None,N_P=None, TYPE=None, TT=set())
-
+error = 0
 for lines in s:
     #print (lines)
     catch_TYPE = PLA_TYPE.match(lines)
@@ -34,6 +34,7 @@ for lines in s:
             #print("TYPE:",type_int)
         except Exception:
             print("Error in .type description")
+            error = 1
 
     catch_INP = PLA_INP.match(lines)
     if(catch_INP):
@@ -42,6 +43,7 @@ for lines in s:
             #print("Input:",catch_INP.group(1))
         except Exception:
             print("Error in .i description")
+            error = 1
 
     catch_OUT = PLA_OUT.match(lines)
     if(catch_OUT):
@@ -50,6 +52,7 @@ for lines in s:
             #print("Output",catch_OUT.group(1))
         except Exception:
             print("Error in .o description")
+            error = 1
 
     catch_COMMENT = PLA_COMMENT.match(lines)
     if(catch_COMMENT):
@@ -57,6 +60,7 @@ for lines in s:
             print("Comment:",catch_COMMENT.group(1))
         except Exception:
             print("Error in writing comment")
+            error = 1
 
     catch_ILB = PLA_ILB.match(lines)
     if(catch_ILB):
@@ -65,6 +69,7 @@ for lines in s:
             #print("Ip Signals:",catch_ILB.group(1))
         except Exception:
             print("Error in .ilb description")
+            error = 1
 
     catch_OB = PLA_OB.match(lines)
     if(catch_OB):
@@ -73,6 +78,7 @@ for lines in s:
             #print("Op Signals:",catch_OB.group(1))
         except Exception:
             print("Error in .ob description")
+            error = 1
     
     catch_P = PLA_P.match(lines)
     if(catch_P):
@@ -81,6 +87,7 @@ for lines in s:
             #print("Row in TT:",catch_P.group(1))
         except Exception:
             print("Error in .p description")
+            error = 1
 
     catch_TT = PLA_TT.match(lines)
     if(catch_TT):
@@ -92,5 +99,16 @@ for lines in s:
             #print(inp_, out_)
         except Exception:
             print("Error in Truth Table description")
+            error = 1
+            
+#print (d)
+if (len(d['IP_LABEL']) != d['N_IP']):
+    print("Error in lenght of input and input labels, .i and .ilb description.")
+    error = 1
 
-print(d)
+elif (len(d['OP_LABEL']) != d['N_OP']):
+    print("Error in lenght of output and output labels, .o and .ob description")
+    error = 1
+else:
+    if error == 0:
+        print (d)
