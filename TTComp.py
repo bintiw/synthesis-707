@@ -18,6 +18,15 @@ def check(a,b,c,d):
 
 d = PARSE_PLA("PLA1")
 TT_value = d.get('TT') 
+print (TT_value)
 for i in TT_value:
     for j in TT_value:
-        check (i,j,d.get('N_IP'),d.get('N_OP'))
+        print(type(i))
+
+
+
+#for i in range(0, len(TT_value)):
+#    for j in range(0,len(TT_value)):
+#        if(i<j):
+#            print (i,j)
+#check (i,j,d.get('N_IP'),d.get('N_OP'))
