@@ -5,6 +5,13 @@ __email__ = "binayaktiwari@gmail.com"
 
 import re
 
+"""
+Parse the PLA file and returns the dictionary of PLA decription
+
+*****Some error check condition are not yet implemented, left for future improvements****
+
+"""
+
 def PARSE_PLA(_PLA_FILENAME):
             PLA_COMMENT = re.compile(r"^#(.*$)")
             PLA_TYPE = re.compile(r'^.type\s+(f|r|fr|fd|dr|fdr)$') 
@@ -21,16 +28,14 @@ def PARSE_PLA(_PLA_FILENAME):
             f = open(_PLA_FILENAME,"r")
             s = f.readlines()
 
-            d = dict(N_IP=None, N_OP=None,IP_LABEL=None, OP_LABEL=None,N_P=None, TYPE=None, TT=set())
+            d = dict(N_IP=None, N_OP=None,IP_LABEL=None, OP_LABEL=None,N_P=None, TYPE=None, TT_ip=list(), TT_op=list())
             error = 0
             for lines in s:
-                #print (lines)
                 catch_TYPE = PLA_TYPE.match(lines)
                 if(catch_TYPE):
                     try:
                         type_int = tuple(PLA_TYPE_INT[c] for c in catch_TYPE.groups() )
                         d['TYPE'] = int(type_int[0])
-                        #print("TYPE:",type_int)
                     except Exception:
                         print("Error in .type description")
                         error = 1
@@ -39,7 +44,6 @@ def PARSE_PLA(_PLA_FILENAME):
                 if(catch_INP):
                     try:
                         d['N_IP'] = int(catch_INP.group(1))
-                        #print("Input:",catch_INP.group(1))
                     except Exception:
                         print("Error in .i description")
                         error = 1
@@ -48,7 +52,6 @@ def PARSE_PLA(_PLA_FILENAME):
                 if(catch_OUT):
                     try:
                         d['N_OP'] = int(catch_OUT.group(1))
-                        #print("Output",catch_OUT.group(1))
                     except Exception:
                         print("Error in .o description")
                         error = 1
@@ -65,7 +68,6 @@ def PARSE_PLA(_PLA_FILENAME):
                 if(catch_ILB):
                     try:
                         d['IP_LABEL'] = catch_ILB.group(1).split()
-                        #print("Ip Signals:",catch_ILB.group(1))
                     except Exception:
                         print("Error in .ilb description")
                         error = 1
@@ -74,7 +76,6 @@ def PARSE_PLA(_PLA_FILENAME):
                 if(catch_OB):
                     try:
                         d['OP_LABEL'] = catch_OB.group(1).split()
-                        #print("Op Signals:",catch_OB.group(1))
                     except Exception:
                         print("Error in .ob description")
                         error = 1
@@ -83,7 +84,6 @@ def PARSE_PLA(_PLA_FILENAME):
                 if(catch_P):
                     try:
                         d['N_P'] = int(catch_P.group(1))
-                        #print("Row in TT:",catch_P.group(1))
                     except Exception:
                         print("Error in .p description")
                         error = 1
@@ -92,15 +92,14 @@ def PARSE_PLA(_PLA_FILENAME):
                 if(catch_TT):
                     try:
                         ip , op = catch_TT.groups()
-                        inp_ = tuple(PLA_CODE[c] for c in ip)
-                        out_ = tuple(PLA_CODE[c] for c in op)
-                        d['TT'].add((inp_,out_))
-                        #print(inp_, out_)
+                        inp_ = list(PLA_CODE[c] for c in ip)
+                        out_ = list(PLA_CODE[c] for c in op)
+                        d['TT_ip'].append(inp_)
+                        d['TT_op'].append(out_)
                     except Exception:
                         print("Error in Truth Table description")
                         error = 1
 
-            #print (d)
             if (len(d['IP_LABEL']) != d['N_IP']):
                 print("Error in lenght of input and input labels, .i and .ilb description.")
                 return (0)
