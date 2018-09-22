@@ -7,7 +7,11 @@ from utils import *
 
 def main():
     d = PARSE_PLA("PLA1")
-    print (getPartition(d))
+    list_input = ['x2','x3','x0']
+    P = getPartitionGroup(list_input,getPartition(d))
+    list_output = ['y0','y1']
+    Pf = getPartitionGroup(list_output,getPartition(d))
+    print (P,Pf)
 
 if __name__== "__main__":
   main()
