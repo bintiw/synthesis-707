@@ -5,7 +5,6 @@ __email__ = "binayaktiwari@gmail.com"
 
 from parsePLA import *
 import itertools
-import numpy as np
 
 """
 getPartition is the function that takes in a parsed PLA description as an input 
