@@ -57,29 +57,29 @@ PB a partitonGroup of PB sets
 Pf a partitionGroup of Pf sets
 """
 def getCompatabilityClasses(PA, PB, Pf):
-
-    print(PA)
-    print(PB)
-    print("\n")
-
-    PBp = dict()
+    PBp = []
     PBo = []
     D = dict()
-    for i in range(len(PB) - 1):
-        for ii in range(i+1, len(PB)):
-            #PBp['P(' + ii + ')'] = list(PB)
-            print(PBp)
+    D['P(A)'] = PA
+    #print (range(1,len(PB)))
+    for i in range(len(PB)-1):
+        for ii in range(i+1,len(PB)):
+            PBp = list(PB)
             PBp.append(PB[i].union(PB[ii]))
             del PBp[i]
             del PBp[ii]
-            print(PBp)
 
-            if(checkCompatability(PA.intersect(PBp), Pf)):
-               PBo.append(PBp)
+            D['P(B'+str(i)+'_'+str(ii)+')'] = PBp
+            
+            print (i," and ",ii,": ",PBp)
+            print()
+            #D['P(A)'] = 
+            #getPartitionGroup(
+            print(getPartitionGroup(['A','B'+str(i)+'_'+str(ii)],D))
+            #if(checkIsSubset(, PF)):
+            #    PBo.append(PBp)
 
-        
-        
-
+    print (D)
     return PBo
         
 

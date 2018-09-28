@@ -36,7 +36,7 @@ def main():
     print ("Set A: ",  PA)
     print ("Set B: ",  PB)
 
-   # COM = getCompatabilityClasses(PA,PB,Pf)
+    COM = getCompatabilityClasses(PA,PB,Pf)
 
     #print(COM)
 
