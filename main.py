@@ -10,13 +10,14 @@ from compatabilityClasses import *
 def main():
     B_size = 3
     PLA = PARSE_PLA("PLA1")
+    partitions = getPartition(PLA)
 
     #checkConsistency2(PLA)
     
     list_input = PLA.get('IP_LABEL')
-    P = getPartitionGroup(list_input,getPartition(PLA))
+    P = getPartitionGroup(list_input,partitions)
     list_output = PLA.get('OP_LABEL')
-    Pf = getPartitionGroup(list_output,getPartition(PLA))
+    Pf = getPartitionGroup(list_output,partitions)
 
     
     print ("P: ",P)
@@ -27,7 +28,7 @@ def main():
     checkConsistency(P,Pf)
 
     #get sets A and B
-    partitions = getPartition(PLA)
+    
     AB = getAB(list_input, partitions, 3)
     print ("AB Choosen:", AB)
     
