@@ -57,4 +57,21 @@ def getPartitionGroup(list_input, d1):
            aa = aa & (globals()['variable{}'.format(i)])
         set_grp.append(aa)
     return (set_grp)
+
+def getConsistencyCheck(d1):
+    print (d1['TT_ip'])
+    TT_ = {}
+    strIP = ""
+    strOP = ""
+    for i in range(0,len(d1['TT_ip'])):
+        str1  = ''.join(map(str, d1['TT_ip'][i]))
+        strIP = strIP+str(i)+str1+";"
+
+        str1  = ''.join(map(str, d1['TT_op'][i]))
+        strOP = strOP+str(i)+str1+";"
     
+    print (strIP, strOP)
+       
+
+    
+getConsistencyCheck(PARSE_PLA("PLA1"))
