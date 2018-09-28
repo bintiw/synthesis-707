@@ -57,4 +57,18 @@ def getPartitionGroup(list_input, d1):
            aa = aa & (globals()['variable{}'.format(i)])
         set_grp.append(aa)
     return (set_grp)
+
+
+"""
+getIntersection returns a list of intersections between to lists of sets
+P0 list of sets
+P1 list of sets
+"""
+def getIntersections(P0, P1):
+    Po = []
+    for i in P0:
+        for ii in P1:
+            Po.append(i.intersection(ii))
+
+    return Po
     

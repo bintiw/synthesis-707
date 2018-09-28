@@ -30,15 +30,18 @@ def main():
     partitions = getPartition(PLA)
     AB = getAB(list_input, partitions, 3)
     print ("AB Choosen:", AB)
+    print ("\n")
     
     PA = getPartitionGroup(AB['A'], partitions)
     PB = getPartitionGroup(AB['B'], partitions)
     print ("Set A: ",  PA)
     print ("Set B: ",  PB)
+    print ("\n")
 
     COM = getCompatabilityClasses(PA,PB,Pf)
 
-    #print(COM)
+    print("COM: ", COM)
+    print ("\n")
 
 if __name__== "__main__":
   main()
