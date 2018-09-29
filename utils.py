@@ -59,6 +59,12 @@ def getPartitionGroup(list_input, d1):
         set_grp.append(aa)
     return (set_grp)
 
+"""
+This is a function to check the consistency of the TT
+
+Needs to be TESTED , not COMPLETELY TESTED
+"""
+
 def getConsistencyCheck(d1):
     TT_={}
     strIP = ""
