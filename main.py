@@ -9,7 +9,7 @@ from compatabilityClasses import *
 
 def main():
     B_size = 3
-    PLA = PARSE_PLA("PLA1")
+    PLA = PARSE_PLA("RD84")
     partitions = getPartition(PLA)
 
     #checkConsistency2(PLA)
@@ -25,8 +25,8 @@ def main():
     print ("\n")
 
     # Check Consistency
-    checkConsistency(P,Pf)
-
+    #checkConsistency(P,Pf)
+    getConsistencyCheck(PLA)
     #get sets A and B
     
     AB = getAB(list_input, partitions, 3)
