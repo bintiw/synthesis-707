@@ -58,7 +58,7 @@ Pf a partitionGroup of Pf sets
 """
 def getCompatabilityClasses(PA, PB, Pf):
     PBp = []
-    PBo = []
+    PBo = dict()
     D = dict()
     D['P(A)'] = PA
     #print (range(1,len(PB)))
@@ -66,34 +66,45 @@ def getCompatabilityClasses(PA, PB, Pf):
         for ii in range(i+1,len(PB)):
             PBp = list(PB)
             PBp.append(PB[i].union(PB[ii]))
-            del PBp[i]
             del PBp[ii]
+            del PBp[i]
 
             D['P(B'+str(i)+'_'+str(ii)+')'] = PBp
-            
-            print (i," and ",ii,": ",PBp)
-            print()
-            #D['P(A)'] = 
-            #getPartitionGroup(
-            print(getPartitionGroup(['A','B'+str(i)+'_'+str(ii)],D))
-            #if(checkIsSubset(, PF)):
-            #    PBo.append(PBp)
+            #print (D)
+            #print (i," and ",ii,": ",PBp)
+            #print ("\n")
+            #print (len(PB))
+            #print ("D: ", D)
+            #print ("\n")
+            #PT = getPartitionGroup(['A','B'+str(i)+'_'+str(ii)],D)
+            PT = getIntersections(D['P(A)'], D['P(B'+str(i)+'_'+str(ii)+")"])
+            #print ("PT",PT)
+            if(checkCompatability(PT, Pf)):
+                PBo['P(B'+str(i)+'_'+str(ii)+')'] = PBp
 
-    print (D)
+
     return PBo
         
 
+"""
+checkCompatability will compare to sets to check if they are subsets of each other
+P0 a partition 
+P1 a partition
+"""
 def checkCompatability(P0, P1):
 
-    interFound = 0 
+    interFound = 0;
+    
     for i in P0:
-      for k in P1:
-          if(i.issubset(k)):
+      for ii in P1:
+          if(i.issubset(ii)):
             interFound += 1
-              
+
       if(interFound == 0):
         return 0
       else:
         interFound = 0
+
+    return 1
 
     
