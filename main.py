@@ -41,8 +41,9 @@ def main():
 
     COM = getCompatabilityClasses(PA,PB,Pf)
 
-    print("COM: ", COM)
-    print ("\n")
+    for i in COM:
+        print(i,COM[i])
+    
 
 if __name__== "__main__":
   main()
