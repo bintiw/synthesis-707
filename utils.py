@@ -71,6 +71,7 @@ def getIntersections(P0, P1):
             Po.append(i.intersection(ii))
 
     return Po
+
 """
 This is a function to check the consistency of the TT
 
@@ -135,4 +136,28 @@ def getConsistencyCheck(d1):
     print("----------------Consistency PASS---------------------")    
 
 
+def getMCC():
+    B_size = 3
+    CC = list()
+    S = list()
+    a = set()
+    b = set()
+    com = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
+    for i in range(0,2**B_size):
+        a.clear()
+        b.clear()
+        for j in com:
+            if(i==j[1]):
+                a.add(j[0])
+        if(len(a)==0):
+            c = getIntersections(a,CC)
+            if(len(c)==0):
+                b.add(i)
+                CC.append(b)
+        else:
+            print (len(a))
 
+        print(a,b,CC)
+        print ("----")
+
+getMCC()
