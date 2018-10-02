@@ -135,29 +135,57 @@ def getConsistencyCheck(d1):
             sys.exit("Consistency Fail")
     print("----------------Consistency PASS---------------------")    
 
+"""
+Function to remove duplicate item in a list
+"""
+def remove_(duplicate): 
+    final_list = [] 
+    for num in duplicate:
+        if num not in final_list:
+            if len(num)!=0:
+                    final_list.append(num)
+                
+    return final_list
 
-def getMCC():
-    B_size = 3
-    CC = list()
-    S = list()
-    a = set()
-    b = set()
-    com = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
+"""
+function to remove all subsets, only keeps a superset
+Helper function for getMCC()
+"""
+
+def remove_MCC_redundant(duplicate):
+    final = []
+    for i in duplicate:
+        flag = 0
+        for j in duplicate:
+            if (i.issubset(j) and i!=j):
+                flag =1
+        if flag==0:
+            final.append(i)
+    return final
+
+"""
+Returns maximum compatible classes
+Needs testing, only after getCompatiblityClasses returns list of tuples of compatible pairs
+"""
+
+def getMCC(com,B_size):
+    CC = [set()]
+    S = set()
+    res = set()
     for i in range(0,2**B_size):
-        a.clear()
-        b.clear()
+        S.clear()
         for j in com:
             if(i==j[1]):
-                a.add(j[0])
-        if(len(a)==0):
-            c = getIntersections(a,CC)
-            if(len(c)==0):
-                b.add(i)
-                CC.append(b)
-        else:
-            print (len(a))
+                S.add(j[0])
+        #print("S=",S)
+        #print("C=",CC)  
 
-        print(a,b,CC)
-        print ("----")
-
-getMCC()
+        for k in range(0,len(CC)):
+            res = set()
+            res = CC[k].intersection(S)
+            #print("Intersection (SnC)=",CC[k],S,res)
+            res.add(i)
+            CC.append(res)
+            CC = remove_(CC)
+            #print("Added to (SnC)=",CC)
+    return (remove_MCC_redundant(CC))

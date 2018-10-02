@@ -42,9 +42,19 @@ def main():
 
 
     COM = getCompatabilityClasses(PA,PB,Pf)
-
     for i in COM:
         print(i,COM[i])
+
+   
+
+    compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]    # Please modify getCompatabilityClasses to have this kind of pairs returned
+    #Compatible_list is taken from the lecture slide.
+    
+    MCC = getMCC(compatible_list , B_size)
+    print ("\nMaximum Compatible Classes:")
+    for i in MCC:
+        print (i)
+    
     
 
 if __name__== "__main__":
