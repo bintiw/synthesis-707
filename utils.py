@@ -177,21 +177,21 @@ def getMCC(com,B_size):
         for j in com:
             if(i==j[1]):
                 S.add(j[0])
-        print("S=",S)
-        print("C=",CC)  
+        #print("S=",S)
+        #print("C=",CC)  
         CC_ = CC
         for k in range(0,len(CC_)):
             res = set()
             res = CC_[k].intersection(S)
-            print("Intersection (SnC)=",CC_[k],S,res)
+            #print("Intersection (SnC)=",CC_[k],S,res)
             res.add(i)
             CC.append(res)
             CC = remove_(CC)
             CC = remove_MCC_redundant(CC)
-            print("Added to (SnC)=",CC)
-        print("-----------")    
+            #print("Added to (SnC)=",CC)
+        #print("-----------")    
     return (remove_MCC_redundant(CC))
 
 
-compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
-getMCC(compatible_list , 3)
+#compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
+#getMCC(compatible_list , 3)
