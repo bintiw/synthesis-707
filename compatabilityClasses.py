@@ -59,6 +59,7 @@ Pf a partitionGroup of Pf sets
 def getCompatabilityClasses(PA, PB, Pf):
     PBp = []
     PBo = dict()
+    PBt = []
     D = dict()
     D['P(A)'] = PA
     #print (range(1,len(PB)))
@@ -78,12 +79,13 @@ def getCompatabilityClasses(PA, PB, Pf):
             #print ("\n")
             #PT = getPartitionGroup(['A','B'+str(i)+'_'+str(ii)],D)
             PT = getIntersections(D['P(A)'], D['P(B'+str(i)+'_'+str(ii)+")"])
-            #print ("PT",PT)
+            #print ("PT: ",PT)
             if(checkCompatability(PT, Pf)):
                 PBo['P(B'+str(i)+'_'+str(ii)+')'] = PBp
+                PBt.append((i, ii))
 
 
-    return PBo
+    return PBt
         
 
 """
