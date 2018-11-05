@@ -55,6 +55,7 @@ def main():
     #MCC = getMCC(compatible_list , B_size)    
     MCC = getMCC(COM , B_size)
     print ("\nMaximum Compatible Classes:")
+    
     for i in MCC:
         print (i)
     
