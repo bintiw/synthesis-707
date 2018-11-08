@@ -7,6 +7,26 @@ from parsePLA import *
 import itertools
 import sys
 
+def gray_code(n):
+    def gray_code_recurse (g,n):
+        k=len(g)
+        if n<=0:
+            return
+
+        else:
+            for i in range (k-1,-1,-1):
+                char='1'+g[i]
+                g.append(char)
+            for i in range (k-1,-1,-1):
+                g[i]='0'+g[i]
+
+            gray_code_recurse (g,n-1)
+
+    g=['0','1']
+    gray_code_recurse(g,n-1)
+    return g
+
+
 """
 getPartition is the function that takes in a parsed PLA description as an input 
 and returns dictionary of input and output literal partition
@@ -190,8 +210,10 @@ def getMCC(com,B_size):
             #CC = remove_MCC_redundant(CC)
             #print("Added to (SnC)=",CC)
         #print("-----------")    
-    return (remove_MCC_redundant(CC))
-
-
+    ret = []
+    for i in remove_MCC_redundant(CC):
+        ret.append(tuple(i))
+    
+    return (ret)
 #compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
 #getMCC(compatible_list , 3)

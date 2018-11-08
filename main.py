@@ -4,8 +4,11 @@ __maintainer__ =  "Binayak Tiwari"
 __email__ = "binayaktiwari@gmail.com"
 
 from utils import *
+from encoding import *
 from consistencyCheck import *
 from compatabilityClasses import *
+import math
+import operator
 
 def main():
     B_size = 3
@@ -28,9 +31,8 @@ def main():
     #checkConsistency(P,Pf)
     getConsistencyCheck(PLA)
 
-    #get sets A and B    
     AB = getAB(list_input, partitions, B_size)
-    #AB = {'A': ['x2', 'x4'], 'B': ['x0','x1','x3']}
+    #AB = {'A': ['x3', 'x4'], 'B': ['x0','x1','x3']}
 
     print ("AB Choosen:", AB)
     print ("\n")
@@ -55,10 +57,29 @@ def main():
     #MCC = getMCC(compatible_list , B_size)    
     MCC = getMCC(COM , B_size)
     print ("\nMaximum Compatible Classes:")
+    #print (MCC)
     for i in MCC:
-        print (i)
-    
-    
+       print (i)
+
+
+    print ()
+    occurs = getOccurences(MCC, PB)
+    print ("\nOccurances:")
+    print(occurs)
+
+    gray_l = math.ceil(math.log(len(MCC),2)) #gray length
+    gray_c = gray_code(gray_l)
+        
+  
+
+ 
+    MCC_enc, z = encodeOccurs(occurs, MCC, gray_l, gray_c)
+    print ("\nEncoded MCCs:")
+    print(MCC_enc)
+    print ("\n Z sets:")
+    print(z)
+
+    #step1();
 
 if __name__== "__main__":
   main()
