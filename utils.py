@@ -31,7 +31,7 @@ def getProdCC(cc,g_table):
                 b = np.unique(b)
                 #print (b)
                 if(1 in b and 2 in b and 0 in b):
-                    prod_temp.append(2)
+                    prod_temp.append(3)
                 elif (1 not in b and 2 not in b):
                     prod_temp.append(0)
                 elif (0 not in b and 2 not in b):
@@ -43,9 +43,9 @@ def getProdCC(cc,g_table):
                 elif (1 in b and 2 in b):
                     prod_temp.append (1)
                 elif (1 in b and 0 in b):
-                    prod_temp.append (2)
+                    prod_temp.append (3)
                 else:
-                    prod_temp.append (2)
+                    prod_temp.append (4)
         prod.update({i:prod_temp})    
     return (prod)
 """
