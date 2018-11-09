@@ -7,6 +7,47 @@ from parsePLA import *
 import itertools
 import sys
 
+
+
+
+import numpy as np
+
+"""
+Get product of all elements of MCC for step2
+"""
+def getProdCC(cc,g_table):
+    #print ("----GET PROD----")
+    prod = {}
+    for i in range(0,len(cc)):
+        temp = []
+        prod_temp = []
+        for j in range(0,len(cc[i])):
+            temp.append((g_table[cc[i][j]]))
+        a = np. array(temp)
+        #print (a)
+        for k in range(0,len(a[0])):
+                b = a[:,k]
+                #print (b)
+                b = np.unique(b)
+                #print (b)
+                if(1 in b and 2 in b and 0 in b):
+                    prod_temp.append(2)
+                elif (1 not in b and 2 not in b):
+                    prod_temp.append(0)
+                elif (0 not in b and 2 not in b):
+                    prod_temp.append (1)
+                elif (1 not in b and 0 not in b):
+                    prod_temp.append (2)
+                elif (0 in b and 2 in b):
+                    prod_temp.append (0)
+                elif (1 in b and 2 in b):
+                    prod_temp.append (1)
+                elif (1 in b and 0 in b):
+                    prod_temp.append (2)
+                else:
+                    prod_temp.append (2)
+        prod.update({i:prod_temp})    
+    return (prod)
 """
 getPartition is the function that takes in a parsed PLA description as an input 
 and returns dictionary of input and output literal partition
@@ -192,6 +233,17 @@ def getMCC(com,B_size):
         #print("-----------")    
     return (remove_MCC_redundant(CC))
 
+"""
+Compatibility check for step2
+"""
+
+
+def compatibilityCheck(a,b):
+    for i in range(len(a)):   
+        if (not((a[i]==2 and b[i] ==0) or (a[i]==2 and b[i] ==1)or (a[i]==0 and b[i] ==0) or (a[i]==1 and b[i] ==1))):
+            return 0
+        
+    return 1
 
 #compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
 #getMCC(compatible_list , 3)
