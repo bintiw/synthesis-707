@@ -94,8 +94,6 @@ def main():
 
 
     
-    
-
 
 
 def step2(z, prodCC, g_table,g_code):
