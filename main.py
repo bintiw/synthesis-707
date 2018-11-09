@@ -73,11 +73,17 @@ def main():
   
 
  
-    MCC_enc, z = encodeOccurs(occurs, MCC, gray_l, gray_c)
+    MCC_enc, z, g_table = encodeOccurs(occurs, MCC, gray_l, gray_c)
     print ("\nEncoded MCCs:")
     print(MCC_enc)
-    print ("\n Z sets:")
+    print("\n")
+    
+    print("Z set:")
     print(z)
+    print("\n")
+
+    print("g table set:")
+    print(g_table)
 
     #step1();
 

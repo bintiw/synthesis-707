@@ -20,16 +20,17 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
     gray_f = [0]*len(gray_c)
     #gray_f = [1,0,0,0,0,0,0,0]
     z = []
+    g_table = [0]*len(occurs)
+    
 
     #print(MCC_enc)
     target = 2**(gray_l-1)
     while(target >= 0):
         for cube in occurs:
-            
             if(occurs[cube][0]%2 != 0 and occurs[cube][0] != 1 and cube not in z):
                 z.append(cube)
                 continue
-            
+
             if(occurs[cube][0] == target):
 ##                print(occurs[cube])
 ##                print("\n")
@@ -43,7 +44,11 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
                 #print("is enc",temp_is_enc)
                 #print("nt enc",temp_not_enc)
 
-                if(not temp_not_enc):
+                if(not temp_not_enc): #everything encoded
+                    code = isAdj(MCC_enc[temp_is_enc[0]], temp_is_enc, target/2, MCC_enc)
+                    if(not code): #check if differ by target/2
+                        z.append(cube)
+                    g_table[cube] = code
                     continue
                 
 
@@ -54,10 +59,12 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
                         if(gray_f[i]): # continue if gray not available
                             continue
                         else:
-                            if(isAdj(gray_c[i], temp_is_enc, target/2, MCC_enc)): 
+                            code = isAdj(gray_c[i], temp_is_enc, target/2, MCC_enc)
+                            if(code): 
                                 MCC_enc[CC] = gray_c[i]
                                 temp_is_enc.append(CC)
                                 gray_f[i] = 1
+                                g_table[cube] = code
                                 gotoZ = 0
                                 break
                             else:
@@ -72,11 +79,11 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
         target /= 2
     #print(MCC_enc)
     
-    return MCC_enc, z
+    return MCC_enc, z, g_table
 
 def isAdj(test, refs, diff_l, MCC_enc):
     if(not refs):
-        return 1
+        return test
     else:
         res = test
         for ref in refs:
@@ -92,7 +99,7 @@ def isAdj(test, refs, diff_l, MCC_enc):
                 count += 1
 
         if(count <= diff_l):
-            return 1
+            return res
         else:
             return 0
 
