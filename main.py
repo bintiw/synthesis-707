@@ -103,6 +103,8 @@ def main():
 
     print (z,"\n",g_table,"\n",g_code)
    
+    for i in range(0,len(g_code)):
+        print (i,"\t",g_table[i],"\t",g_code[i],"\n")
 
 if __name__== "__main__":
   main()
