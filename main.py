@@ -76,7 +76,7 @@ def main():
     print ("\nMaximum Compatible Classes:",MCC)
 
     
-    z = [2,4,8,13,15,16] # -15
+    z = [2,4,8,15] # -15
     #g_table = {0: [2,2,0,2], 1:[2,2,0,1], 2:[2,1,2,2],3:[2,0,0,1],4:[1,2,0,0],5:[2,1,0,2],6:[2,1,1,0],7:[2,0,1,1],8:[0,0,0,2],9:[2,1,1,1],10:[0,0,1,1],11:[2,0,0,0],12:[2,1,1,0],13:[2,2,1,0],14:[2,0,1,0],15:[1,2,1,2],16:[2,2,1,0]}
     g_table = [[2,2,0,2],[2,2,0,1],[2,1,2,2],[2,0,0,1],[1,2,0,0],[2,1,0,2],[2,1,1,0],[2,0,1,1],[0,0,0,2],[2,1,1,1],[0,0,1,1],[2,0,0,0],[2,1,1,0],[2,2,1,0],[2,0,1,0],[1,2,1,2],[2,2,1,0]]
     #g_code = {0: [0,2,2], 1:[0,0,2], 2:[],3:[0,0,1],4:[],5:[0,0,0],6:[1,1,1],7:[1,0,2],8:[],9:[0,0,1],10:[1,0,0],11:[0,1,2],12:[1,1,1],13:[],14:[0,0,1],15:[],16:[]}
@@ -103,6 +103,16 @@ def main():
 
     print (z,"\n",g_table,"\n",g_code)
 
+    for i in z:
+        j = list_duplicates_of(g_table,g_table[i])
+        print (j)
+        j.remove(i)
+        if len(j)>0:
+            for k in j:
+                z.remove(k)
+            print ("----")
+    
+    print (z)
 
     
 def step2(z,prodCC,g_table,cc_code,g_code):
@@ -138,9 +148,19 @@ def step2(z,prodCC,g_table,cc_code,g_code):
     print("-----------STEP2---Done-----------","\n")  
     return z1,g_table1,g_code1
 
-        
 
-
+def list_duplicates_of(seq,item):
+    start_at = -1
+    locs = []
+    while True:
+        try:
+            loc = seq.index(item,start_at+1)
+        except ValueError:
+            break
+        else:
+            locs.append(loc)
+            start_at = loc
+    return locs
 
 
 if __name__== "__main__":
