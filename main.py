@@ -105,14 +105,12 @@ def main():
 
     for i in z:
         j = list_duplicates_of(g_table,g_table[i])
-        print (j)
         j.remove(i)
         if len(j)>0:
             for k in j:
                 z.remove(k)
-            print ("----")
     
-    print (z)
+    
 
     
 def step2(z,prodCC,g_table,cc_code,g_code):
