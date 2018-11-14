@@ -273,5 +273,57 @@ def expand(v):
                 exp[ii].append(copy.deepcopy(v[i]))
     return exp
 
+"""
+Encoding Step 2
+"""
+def step2(z,prodCC,g_table,cc_code,g_code):
+    print("-----------STEP2--------------","\n")
+    #print("Z Set:",z)
+    #print("Prod CCs:",prodCC)
+    #print("G table",g_table)
+    g_table1 = copy.deepcopy(g_table)
+    g_code1 = copy.deepcopy(g_code)
+    z1 = copy.deepcopy(z)
+    for i in z:
+        subcubes = expand(g_table[i])
+        subcode = []
+        for j in subcubes:
+            for k in range(0,len(prodCC)):
+                for l in prodCC[k]:
+                    subcubes_prodcc = expand(l)
+                    if(j in subcubes_prodcc):
+                        subcode.append(cc_code[k])
+        list2 = [x for x in subcode if x]
+        subcode = list2
+        if(len(subcode)==len(subcubes)):
+            print (i,z1,subcubes,subcode)
+            g_table1[i] = subcubes[0]
+            g_code1[i] = subcode[0]
+
+            for m in range(1,len(subcubes)):
+                #g_table1.update({len(g_table1) : subcubes[m]})
+                g_table1.append(subcubes[m])
+                #g_code1.update({len(g_code1) : subcode[m]})
+                g_code1.append(subcode[m])
+            z1.remove(i)
+    print("-----------STEP2---Done-----------","\n")  
+    return z1,g_table1,g_code1
+
+"""
+code to locate a duplicate entry in list
+"""
+
+def list_duplicates_of(seq,item):
+    start_at = -1
+    locs = []
+    while True:
+        try:
+            loc = seq.index(item,start_at+1)
+        except ValueError:
+            break
+        else:
+            locs.append(loc)
+            start_at = loc
+    return locs
 #compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
 #getMCC(compatible_list , 3)
