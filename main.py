@@ -102,15 +102,7 @@ def main():
     z,g_table,g_code = step2(z,prodCC,g_table,cc_code,g_code)
 
     print (z,"\n",g_table,"\n",g_code)
-
-    for i in z:
-        j = list_duplicates_of(g_table,g_table[i])
-        j.remove(i)
-        if len(j)>0:
-            for k in j:
-                z.remove(k)
-    
-    
+   
 
 if __name__== "__main__":
   main()
