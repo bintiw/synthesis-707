@@ -57,7 +57,6 @@ and 4,5,7 is the MCCS it occurs in
 def getOccurences(MCC, PB, N_P):
     
     occurs = [[] for _ in range(N_P)]
-    print(occurs)
     for i in range(len(MCC)):
         for ii in MCC[i]:
             for j in PB[ii]:

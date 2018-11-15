@@ -36,11 +36,11 @@ def main():
 
     print ("AB Choosen:", AB)
     print ("\n")
-    
+
     PA = getPartitionGroup(AB['A'], partitions)
     PB = getPartitionGroup(AB['B'], partitions)
 
-    print(partitions)
+    #print(partitions)
 ##    tempPB = PB
 ##    PB = remove_(PB)
 ##
@@ -105,15 +105,12 @@ def main():
 
     print ("\nMaximum Compatible Classes:",MCC)
 
-    
-    
-    
-
-
    # print ("Product of CCs::",prodCC)
-    b_table =  [[2,2,0,2],[2,2,0,1],[2,1,2,2],[2,0,0,1],[1,2,0,0],[2,1,0,2],[2,1,1,0],
-                [2,0,1,1],[0,0,0,2],[2,1,1,1],[0,0,1,1],[2,0,0,0],[2,1,1,0],[2,2,1,0],
-                [2,0,1,0],[1,2,1,2],[2,2,1,0]]
+    
+    b_table =  getBTable(AB['B'], PLA['N_P'], PLA["TT_ip"])
+    
+    print("\n b_table: ", b_table)
+    
     z = step1( b_table, z, g_table)
 
     print("\nZ tables step 1 removed:" , z)
