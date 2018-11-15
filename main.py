@@ -9,7 +9,7 @@ from consistencyCheck import *
 from compatabilityClasses import *
 import math
 import operator
-       
+import copy       
 
 def main():
     B_size = 4
@@ -41,24 +41,24 @@ def main():
     PB = getPartitionGroup(AB['B'], partitions)
 
     #print(partitions)
-##    tempPB = PB
-##    PB = remove_(PB)
-##
-##    s = []
-##
-##    """
-##    Removing duplicate or subsets in PB
-##    """
-##    for i in range(0,len(PB)):
-##        flag = 0
-##        for j in range(0,len(PB)):
-##            if (i!=j):
-##                if(PB[i].issubset(PB[j])):
-##                    flag = 1
-##        if(flag == 0):
-##            s.append(PB[i])
-##
-##    PB = s
+    tempPB = copy.deepcopy(PB)
+    PB = remove_(PB)
+
+    s = []
+
+    """
+    Removing duplicate or subsets in PB
+    """
+    for i in range(0,len(PB)):
+        flag = 0
+        for j in range(0,len(PB)):
+            if (i!=j):
+                if(PB[i].issubset(PB[j])):
+                    flag = 1
+        if(flag == 0):
+            s.append(PB[i])
+
+    PB = s
     
                 
     print ("Set A: ",  PA)
@@ -66,7 +66,7 @@ def main():
     print ("\n")
 
 
-    COM = getCompatabilityClasses(PA,PB,Pf)
+    COM = getCompatabilityClasses(PA,tempPB,Pf)
     print ("Compatible Classes:",COM)
 
    
@@ -82,7 +82,7 @@ def main():
        print (i)
 
 
-    occurs = getOccurences(MCC, PB, PLA["N_P"])
+    occurs = getOccurences(MCC, tempPB, PLA["N_P"])
     print ("\nOccurances:")
     print(occurs)
 
@@ -112,11 +112,13 @@ def main():
 
     prodCC = {}
 
-    for i in MCC:
+    cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
+    
+    for i in cc_B:
         temp = []
         for j in i:
             temp.append(prodPB[j])
-        prodCC[MCC.index(i)] = temp
+        prodCC[cc_B.index(i)] = temp
         
     print("\n g_table: ", g_table)
     
@@ -125,11 +127,10 @@ def main():
     print("\nZ tables step 1 removed:" , z)
 
     # transform MCCS tuple to list
-    for i in range(len(MCC)):
-        MCC[i] = list(MCC[i])
+    #for i in range(len(MCC)):
+    #    MCC[i] = list(MCC[i])
 
 
-    #cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
 
 
 
