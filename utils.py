@@ -13,12 +13,15 @@ import copy
 
 import numpy as np
 
-def getGTable(B, N_P, TT_ip):
+def getGTable(B, N_P, TT_ip, IP_LABEL):
+    bdex = []
+    for i in B:
+        bdex.append(IP_LABEL.index(i))
+
     g_table = [[] for _ in range(N_P)]
-    g_sorted = sorted(B)
     for inp_indx in range(N_P):
-        for x in g_sorted:
-            g_table[inp_indx].append(TT_ip[inp_indx][int(x[-1])])
+        for x in bdex:
+            g_table[inp_indx].append(TT_ip[inp_indx][x])
 
     return g_table
 

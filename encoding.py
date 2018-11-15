@@ -157,11 +157,13 @@ def step1(g_table, z, g_code):
     for cube in z:
         s = split(g_table[cube])
         for i in range(0,len(s),2):
+            print(cube)
             if s[i] in g_table and s[i+1] in g_table:
                 if(g_code[g_table.index(s[i])] and g_code[g_table.index(s[i+1])]):
-                    z.remove(cube)
+                    temp_z.remove(cube)
+                    g_table[cube] = []
     print("-----------STEP1---Done-----------","\n")  
-    return z
+    return temp_z
     
     
 """

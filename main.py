@@ -105,8 +105,19 @@ def main():
     print ("\nMaximum Compatible Classes:",MCC)
 
 
-    g_table =  getGTable(AB['B'], PLA['N_P'], PLA["TT_ip"])
+    g_table =  getGTable(AB['B'], PLA['N_P'], PLA["TT_ip"],  PLA["IP_LABEL"])
     
+
+    prodPB = getProdPB(PB,g_table)
+
+    prodCC = {}
+
+    for i in MCC:
+        temp = []
+        for j in i:
+            temp.append(prodPB[j])
+        prodCC[MCC.index(i)] = temp
+        
     print("\n g_table: ", g_table)
     
     z = step1( g_table, z, g_code)
@@ -121,20 +132,11 @@ def main():
     #cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
 
 
-    prodPB = getProdPB(PB,g_table)
-
-    prodCC = {}
-
-    for i in MCC:
-        temp = []
-        for j in i:
-            temp.append(prodPB[j])
-        prodCC[MCC.index(i)] = temp 
-
 
     z,g_table,g_code = step2(z,prodCC,g_table,MCC_enc,g_code)
 
-
+    print("\nZ tables step 2 removed:" , z)
+    
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
 
