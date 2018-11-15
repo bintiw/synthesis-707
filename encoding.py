@@ -159,6 +159,9 @@ def step1(b_table, z, g_table):
     return z
     
     
+"""
+Encoding Step 2
+"""
 def step2(z,prodCC,g_table,cc_code,g_code):
     print("-----------STEP2--------------","\n")
     #print("Z Set:",z)
@@ -184,8 +187,10 @@ def step2(z,prodCC,g_table,cc_code,g_code):
             g_code1[i] = subcode[0]
 
             for m in range(1,len(subcubes)):
-                g_table1.update({len(g_table1) : subcubes[m]})
-                g_code1.update({len(g_code1) : subcode[m]})
+                #g_table1.update({len(g_table1) : subcubes[m]})
+                g_table1.append(subcubes[m])
+                #g_code1.update({len(g_code1) : subcode[m]})
+                g_code1.append(subcode[m])
             z1.remove(i)
     print("-----------STEP2---Done-----------","\n")  
     return z1,g_table1,g_code1

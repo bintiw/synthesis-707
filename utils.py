@@ -265,8 +265,6 @@ def getMCC(com,B_size):
 """
 Compatibility check for step2
 """
-
-
 def compatibilityCheck(a,b):
     for i in range(len(a)):   
         if (not((a[i]==2 and b[i] ==0) or (a[i]==2 and b[i] ==1)or (a[i]==0 and b[i] ==0) or (a[i]==1 and b[i] ==1))):
@@ -293,5 +291,22 @@ def expand(v):
                 exp[ii].append(copy.deepcopy(v[i]))
     return exp
 
+
+"""
+code to locate a duplicate entry in list
+"""
+
+def list_duplicates_of(seq,item):
+    start_at = -1
+    locs = []
+    while True:
+        try:
+            loc = seq.index(item,start_at+1)
+        except ValueError:
+            break
+        else:
+            locs.append(loc)
+            start_at = loc
+    return locs
 #compatible_list = [(0,1),(0,3),(1,3),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5),(4,6),(4,7),(5,6)]
 #getMCC(compatible_list , 3)
