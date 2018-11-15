@@ -97,14 +97,22 @@ def main():
         prodCC[cc_B.index(i)] = temp 
 
 
-   # print ("Product of CCs::",prodCC)   
+    print ("Product of CCs::",prodCC)   
 
     z,g_table,g_code = step2(z,prodCC,g_table,cc_code,g_code)
 
-    print (z,"\n",g_table,"\n",g_code)
-   
+    new_g_table = []
+    new_g_code = []
+    for i in range(0,len(g_code)):
+        if (g_table[i] not in new_g_table):
+            new_g_table.append(g_table[i])
+            new_g_code.append(g_code[i])
+    
+    g_table = new_g_table
+    g_code = new_g_code
+
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
-
+   
 if __name__== "__main__":
   main()
