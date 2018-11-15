@@ -51,14 +51,6 @@ def getAB(list_input, partitions, B_size):
     P['B'] = BB
     return P
 
-def getBTable(B, N_P, TT_ip):
-    b_table = [[] for _ in range(N_P)]
-    b_sorted = sorted(B)
-    for inp_indx in range(N_P):
-        for x in b_sorted:
-            b_table[inp_indx].append(TT_ip[inp_indx][int(x[-1])])
-
-    return b_table
 
 """
 compatabilityClasses will generate all the compatible classes to finding the Maximum Compatability Classes

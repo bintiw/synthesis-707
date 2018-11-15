@@ -13,6 +13,15 @@ import copy
 
 import numpy as np
 
+def getGTable(B, N_P, TT_ip):
+    g_table = [[] for _ in range(N_P)]
+    g_sorted = sorted(B)
+    for inp_indx in range(N_P):
+        for x in g_sorted:
+            g_table[inp_indx].append(TT_ip[inp_indx][int(x[-1])])
+
+    return g_table
+
 def gray_code(n):
     def gray_code_recurse (g,n):
         k=len(g)

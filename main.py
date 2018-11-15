@@ -92,60 +92,49 @@ def main():
   
 
  
-    MCC_enc, z, g_table = encodeOccurs(occurs, MCC, gray_l, gray_c)
+    MCC_enc, z, g_code = encodeOccurs(occurs, MCC, gray_l, gray_c)
     print ("\nEncoded MCCs after encoding                       :")
     print(MCC_enc)
     
-    print("\n Z set after encoding:")
+    print("\n Z set after encoding:", z) 
 
-    print("\n g table set after encoding:")
-    print(g_table)
+    print("\n g code after encoding:")
+    print(g_code)
 
     
-
     print ("\nMaximum Compatible Classes:",MCC)
 
-   # print ("Product of CCs::",prodCC)
+
+    g_table =  getGTable(AB['B'], PLA['N_P'], PLA["TT_ip"])
     
-    b_table =  getBTable(AB['B'], PLA['N_P'], PLA["TT_ip"])
+    print("\n g_table: ", g_table)
     
-    print("\n b_table: ", b_table)
-    
-    z = step1( b_table, z, g_table)
+    z = step1( g_table, z, g_code)
 
     print("\nZ tables step 1 removed:" , z)
 
-    z = [2,4,8,13,16] # -15
-    b_table = {0: [2,2,0,2], 1:[2,2,0,1], 2:[2,1,2,2],3:[2,0,0,1],4:[1,2,0,0],5:[2,1,0,2],6:[2,1,1,0],7:[2,0,1,1],8:[0,0,0,2],9:[2,1,1,1],10:[0,0,1,1],11:[2,0,0,0],12:[2,1,1,0],13:[2,2,1,0],14:[2,0,1,0],15:[1,2,1,2],16:[2,2,1,0]}
-    g_code = {0: [0,2,2], 1:[0,0,2], 2:[],3:[0,0,1],4:[],5:[0,0,0],6:[1,1,1],7:[1,0,2],8:[],9:[0,0,1],10:[1,0,0],11:[0,1,2],12:[1,1,1],13:[],14:[0,0,1],15:[],16:[]}
+    # transform MCCS tuple to list
+    for i in range(len(MCC)):
+        MCC[i] = list(MCC[i])
 
-    z = [2,4,8,15] # -15
-    #g_table = {0: [2,2,0,2], 1:[2,2,0,1], 2:[2,1,2,2],3:[2,0,0,1],4:[1,2,0,0],5:[2,1,0,2],6:[2,1,1,0],7:[2,0,1,1],8:[0,0,0,2],9:[2,1,1,1],10:[0,0,1,1],11:[2,0,0,0],12:[2,1,1,0],13:[2,2,1,0],14:[2,0,1,0],15:[1,2,1,2],16:[2,2,1,0]}
-    g_table = [[2,2,0,2],[2,2,0,1],[2,1,2,2],[2,0,0,1],[1,2,0,0],[2,1,0,2],[2,1,1,0],[2,0,1,1],[0,0,0,2],[2,1,1,1],[0,0,1,1],[2,0,0,0],[2,1,1,0],[2,2,1,0],[2,0,1,0],[1,2,1,2],[2,2,1,0]]
-    #g_code = {0: [0,2,2], 1:[0,0,2], 2:[],3:[0,0,1],4:[],5:[0,0,0],6:[1,1,1],7:[1,0,2],8:[],9:[0,0,1],10:[1,0,0],11:[0,1,2],12:[1,1,1],13:[],14:[0,0,1],15:[],16:[]}
-    g_code = [[0,2,2], [0,0,2],[],[0,0,1],[],[0,0,0],[1,1,1],[1,0,2],[],[0,0,1],[1,0,0],[0,1,2],[1,1,1],[],[0,0,1],[],[]]
 
-    cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
-    cc = [(7,10),(7,15),(0,8,11),(0,4,11),(0,1,2,3,8,9,13,14,15,16),(2,6,12,13,15,16),(0,1,2,4,5)]
-    cc_code = [[1,0,0],[1,0,1],[0,1,0],[0,1,1],[0,0,1],[1,1,1],[0,0,0]]
-    gray = [[1,1,0]]
+    #cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
 
-    
-    prodPB = getProdPB(PB,b_table)
+
+    prodPB = getProdPB(PB,g_table)
 
     prodCC = {}
 
-    for i in cc_B:
+    for i in MCC:
         temp = []
         for j in i:
             temp.append(prodPB[j])
-        prodCC[cc_B.index(i)] = temp 
+        prodCC[MCC.index(i)] = temp 
 
 
-    z,g_table,g_code = step2(z,prodCC,b_table,cc_code,g_code)
+    z,g_table,g_code = step2(z,prodCC,g_table,MCC_enc,g_code)
 
-    print (z,"\n",g_table,"\n",g_code)
-   
+
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
 

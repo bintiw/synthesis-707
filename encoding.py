@@ -130,30 +130,35 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
             target = -1
             
         target /= 2
-    #print(MCC_enc)
-    g_table_ret = [[] for _ in range(len(occurs))]
-    for cube in range(len(g_table)):
-        if g_table[cube] == 0:
+    g_table_ret = str2lst(g_table, len(occurs))
+    MCC_enc_ret = str2lst(MCC_enc, len(MCC_enc))
+    return MCC_enc_ret, z, g_table_ret
+
+
+
+def str2lst(d, length):
+    list_ret = [[] for _ in range(length)]
+    for i in range(len(d)):
+        if d[i] == 0:
             continue
         else:
-            for bit in (g_table[cube]):
+            for bit in (d[i]):
                    if bit == '0':
-                        g_table_ret[cube].append(0);
+                        list_ret[i].append(0);
                    if bit == '1':
-                        g_table_ret[cube].append(1);
+                        list_ret[i].append(1);
                    if bit == '-':
-                        g_table_ret[cube].append(2); 
-    return MCC_enc, z, g_table_ret
+                        list_ret[i].append(2); 
+    return list_ret
 
-
-def step1(b_table, z, g_table):
+def step1(g_table, z, g_code):
     print("-----------STEP1--------------","\n")
     temp_z = copy.deepcopy(z)
     for cube in z:
-        s = split(b_table[cube])
+        s = split(g_table[cube])
         for i in range(0,len(s),2):
-            if s[i] in b_table and s[i+1] in b_table:
-                if(g_table[b_table.index(s[i])] and g_table[b_table.index(s[i+1])]):
+            if s[i] in g_table and s[i+1] in g_table:
+                if(g_code[g_table.index(s[i])] and g_code[g_table.index(s[i+1])]):
                     z.remove(cube)
     print("-----------STEP1---Done-----------","\n")  
     return z
