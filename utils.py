@@ -296,7 +296,7 @@ def step2(z,prodCC,g_table,cc_code,g_code):
         list2 = [x for x in subcode if x]
         subcode = list2
         if(len(subcode)==len(subcubes)):
-            print (i,z1,subcubes,subcode)
+            #print (i,z1,subcubes,subcode)
             g_table1[i] = subcubes[0]
             g_code1[i] = subcode[0]
 
@@ -307,6 +307,67 @@ def step2(z,prodCC,g_table,cc_code,g_code):
                 g_code1.append(subcode[m])
             z1.remove(i)
     print("-----------STEP2---Done-----------","\n")  
+    return z1,g_table1,g_code1
+
+
+"""
+Step3 of encoding
+"""
+
+def step3(z,prodCC,g_table,cc_code,g_code):
+    print("-----------STEP3--------------","\n")
+    #print("Z Set:",z)
+    #print("Prod CCs:",prodCC)
+    #print("G table",g_table)
+    g_table1 = copy.deepcopy(g_table)
+    g_code1 = copy.deepcopy(g_code)
+    z1 = []
+    for i in z:
+        subcubes = expand(g_table[i])
+        subcode = []
+        subcube = []
+        new_subcube=[]
+        for j in subcubes:
+            for k in range(0,len(prodCC)):
+                for l in prodCC[k]:
+                    subcubes_prodcc = expand(l)
+                    if(j in subcubes_prodcc):
+                        subcode.append(cc_code[k])
+                        subcube.append(j)
+        
+        
+        for ll in subcubes:
+            if ll not in subcube:
+                new_subcube.append(ll)
+
+        
+
+        g_table1[i] = subcube[0]
+        g_code1[i] = subcode[0]
+        for ll in range(1,len(subcube)):
+            g_table1.append(subcube[ll])
+            g_code1.append(subcode[ll])
+        
+        for ll in range(1,len(subcubes)):
+            g_table1.append(subcubes[ll])
+            g_code1.append([])
+
+    new_g_table = []
+    new_g_code = []
+    for i in range(0,len(g_code1)):
+        if (g_table1[i] not in new_g_table):
+            new_g_table.append(g_table1[i])
+            new_g_code.append(g_code1[i])
+    
+    g_table1 = new_g_table
+    g_code1 = new_g_code
+
+    for ll in range(0,len(g_code1)):
+        if(g_code1[ll]==[]):
+            z1.append(ll)
+    
+    #print (z1,g_table1,g_code1)
+    print("-----------STEP3---Done-----------","\n")  
     return z1,g_table1,g_code1
 
 """
