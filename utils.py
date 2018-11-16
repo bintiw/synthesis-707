@@ -359,11 +359,11 @@ def step3(z,prodCC,g_table,cc_code,g_code):
     
     g_table1 = new_g_table
     g_code1 = new_g_code
-
+    """
     for ll in range(0,len(g_code1)):
         if(g_code1[ll]==[]):
             z1.append(ll)
-    
+    """
     #print (z1,g_table1,g_code1)
     print("-----------STEP3---Done-----------","\n")  
     return z1,g_table1,g_code1
