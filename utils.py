@@ -306,13 +306,13 @@ def step2(z,prodCC,g_table,cc_code,g_code):
                 #g_code1.update({len(g_code1) : subcode[m]})
                 g_code1.append(subcode[m])
             z1.remove(i)
-        
+   
     new_g_table = []
     new_g_code = []
     for i in range(0,len(g_code1)):
         if (g_table1[i] not in new_g_table):
-            new_g_table.append(g_table1[i])
-            new_g_code.append(g_code1[i])
+                new_g_table.append(g_table1[i])
+                new_g_code.append(g_code1[i])
     
     g_table1 = new_g_table
     g_code1 = new_g_code
@@ -356,8 +356,12 @@ def step3(z,prodCC,g_table,cc_code,g_code):
             g_table1.append(subcube[ll])
             g_code1.append(subcode[ll])
         
-        for ll in range(1,len(subcubes)):
-            g_table1.append(subcubes[ll])
+        
+        if [] in new_subcube:
+            new_subcube.remove([])
+        
+        for ll in range(1,len(new_subcube)):
+            g_table1.append(new_subcube[ll])
             g_code1.append([])
 
     new_g_table = []
@@ -369,13 +373,23 @@ def step3(z,prodCC,g_table,cc_code,g_code):
     
     g_table1 = new_g_table
     g_code1 = new_g_code
+
+    for i in g_table1:
+        if (i == []):
+            if (g_code1[g_table1.index(i)]==[]):
+                a = g_table1.index(i)
+                del g_table1[a]
+                del g_code1[a]
+                
     
     for ll in range(0,len(g_code1)):
         if(g_code1[ll]==[]):
             z1.append(ll)
+        
     
     #print (z1,g_table1,g_code1)
     print("-----------STEP3---Done-----------","\n")  
+
     return z1,g_table1,g_code1
 
 """
