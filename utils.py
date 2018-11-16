@@ -340,8 +340,6 @@ def step3(z,prodCC,g_table,cc_code,g_code):
             if ll not in subcube:
                 new_subcube.append(ll)
 
-        
-
         g_table1[i] = subcube[0]
         g_code1[i] = subcode[0]
         for ll in range(1,len(subcube)):
