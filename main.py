@@ -132,14 +132,17 @@ def main():
 
 
 
-
-
     z,g_table,g_code = step2(z,prodCC,g_table,MCC_enc,g_code)
 
     print("\nZ tables step 2 removed:" , z)
     
+    print (z,"\n",g_table,"\n",g_code)
+    z,g_table,g_code = step3(z,prodCC,g_table,MCC_enc,g_code)
+
+
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
+
 
 if __name__== "__main__":
   main()

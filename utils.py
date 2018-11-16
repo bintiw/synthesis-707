@@ -303,7 +303,6 @@ def expand(v):
                 exp[ii].append(copy.deepcopy(v[i]))
     return exp
 
-
 """
 code to locate a duplicate entry in list
 """
