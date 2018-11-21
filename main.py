@@ -63,6 +63,7 @@ def main():
                 
     print ("Set A: ",  PA)
     print ("Set B: ",  PB)
+    print ("Set B: ",  tempPB)
     print ("\n")
 
 
@@ -92,14 +93,14 @@ def main():
   
 
  
-    MCC_enc, z, g_code = encodeOccurs(occurs, MCC, gray_l, gray_c)
-    print ("\nEncoded MCCs after encoding                       :")
-    print(MCC_enc)
+    MCC_enc, z, g_code, gray_c= encodeOccurs(occurs, MCC, gray_l, gray_c)
+    print ("\nEncoded MCCs after encoding:", MCC_enc)
     
     print("\n Z set after encoding:", z) 
 
-    print("\n g code after encoding:")
-    print(g_code)
+    print("\n g code after encoding:", g_code)
+
+    print("\nLeft over gray codes: ", gray_c)
 
     
     print ("\nMaximum Compatible Classes:",MCC)
@@ -121,28 +122,37 @@ def main():
         prodCC[cc_B.index(i)] = temp
         
     print("\n g_table: ", g_table)
-    
-    z = step1( g_table, z, g_code)
 
-    print("\nZ tables step 1 removed:" , z)
+    z  = step1( g_table, z, g_code)
 
-    # transform MCCS tuple to list
-    #for i in range(len(MCC)):
-    #    MCC[i] = list(MCC[i])
+    print("\nZ tables after step 1:" , z)
+
+        # transform MCCS tuple to list
+        #for i in range(len(MCC)):
+        #    MCC[i] = list(MCC[i])
 
 
 
     z,g_table,g_code = step2(z,prodCC,g_table,MCC_enc,g_code)
 
-    print("\nZ tables step 2 removed:" , z)
-    
-    print (z,"\n",g_table,"\n",g_code)
+    print("\nZ tables after step 2:" , z)
+
     z,g_table,g_code = step3(z,prodCC,g_table,MCC_enc,g_code)
+        #print (z,"\n",g_table,"\n",g_code)
 
+    print("\nZ tables after step 3:" , z)
+    
 
+    g_code, g_table = combine_g_entries(g_code, g_table)
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
 
+
+    #for checking in range(0,len(g_table):
+     #   for comparing in range(1, len(g_tabLe):
+      #      for bitsChecking in range(0, len(checking)):
+       #         if(g_table[checking][bitsChecking] == g_table[comparing][bitsComparing]
+            
 
 if __name__== "__main__":
   main()

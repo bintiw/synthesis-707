@@ -132,7 +132,14 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
         target /= 2
     g_table_ret = str2lst(g_table, len(occurs))
     MCC_enc_ret = str2lst(MCC_enc, len(MCC_enc))
-    return MCC_enc_ret, z, g_table_ret
+
+    for i in MCC_enc:
+        if i in gray_c:
+            gray_c.remove(i)
+    
+    gray_c_ret = str2lst(gray_c, len(gray_c))        
+
+    return MCC_enc_ret, z, g_table_ret, gray_c
 
 
 
@@ -151,13 +158,17 @@ def str2lst(d, length):
                         list_ret[i].append(2); 
     return list_ret
 
+"""
+Encoding Step 1
+"""
+
 def step1(g_table, z, g_code):
     print("-----------STEP1--------------","\n")
     temp_z = copy.deepcopy(z)
     for cube in z:
         s = split(g_table[cube])
         for i in range(0,len(s),2):
-            print(cube)
+            #print(cube)
             if s[i] in g_table and s[i+1] in g_table:
                 if(g_code[g_table.index(s[i])] and g_code[g_table.index(s[i+1])]):
                     temp_z.remove(cube)
@@ -199,13 +210,13 @@ def step2(z,prodCC,g_table,cc_code,g_code):
                 #g_code1.update({len(g_code1) : subcode[m]})
                 g_code1.append(subcode[m])
             z1.remove(i)
-        
+   
     new_g_table = []
     new_g_code = []
     for i in range(0,len(g_code1)):
         if (g_table1[i] not in new_g_table):
-            new_g_table.append(g_table1[i])
-            new_g_code.append(g_code1[i])
+                new_g_table.append(g_table1[i])
+                new_g_code.append(g_code1[i])
     
     g_table1 = new_g_table
     g_code1 = new_g_code
@@ -249,8 +260,12 @@ def step3(z,prodCC,g_table,cc_code,g_code):
             g_table1.append(subcube[ll])
             g_code1.append(subcode[ll])
         
-        for ll in range(1,len(subcubes)):
-            g_table1.append(subcubes[ll])
+        
+        if [] in new_subcube:
+            new_subcube.remove([])
+        
+        for ll in range(1,len(new_subcube)):
+            g_table1.append(new_subcube[ll])
             g_code1.append([])
 
     new_g_table = []
@@ -262,12 +277,62 @@ def step3(z,prodCC,g_table,cc_code,g_code):
     
     g_table1 = new_g_table
     g_code1 = new_g_code
+
+    for i in g_table1:
+        if (i == []):
+            if (g_code1[g_table1.index(i)]==[]):
+                a = g_table1.index(i)
+                del g_table1[a]
+                del g_code1[a]
+                
     
     for ll in range(0,len(g_code1)):
         if(g_code1[ll]==[]):
             z1.append(ll)
+        
     
     #print (z1,g_table1,g_code1)
     print("-----------STEP3---Done-----------","\n")  
+
     return z1,g_table1,g_code1
 
+
+def combine(vecs):
+    count = 0
+    flag = [0]*len(vecs[0])
+    v_ret = vecs[0]
+    for v in vecs:
+        for b in range(len(v)):
+            #print("v_ref: ",v_ret)
+            #print("v    : ",v)
+            if v_ret[b] != v[b]:
+                v_ret[b] = 2
+                flag[b] = 1
+            #print("res  : ",v_ret)
+            #print("-------------------")
+    for f in flag:
+        if f == 1:
+            count += 1
+    return v_ret, count
+
+def combine_g_entries(g_code, g_table):
+    for i in range(len(g_code)):
+        matches = [g_table[i]]
+        inds = [i]
+        for j in range(i+1,len(g_code)):
+            if g_code[i] == g_code[j] and g_code[i]:
+                matches.append(g_table[j])
+                inds.append(j)
+
+        if(len(matches) > 1):
+            combined, places = combine(matches)
+            if(2**places <= len(matches)):
+                g_table.append(combined)
+                g_code.append(g_code[i])
+                for ii in inds:
+                    #del g_table[ii]
+                    #del g_code[ii]
+                    g_table[ii] = []
+                    g_code[ii] = []
+    return g_code, g_table
+        
