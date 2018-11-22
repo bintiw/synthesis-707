@@ -4,11 +4,12 @@ __maintainer__ =  "Binayak Tiwari"
 __email__ = "binayaktiwari@gmail.com"
 
 from utils import *
+from encoding import *
 from consistencyCheck import *
 from compatabilityClasses import *
-import copy
-        
-
+import math
+import operator
+import copy       
 
 def main():
     B_size = 4
@@ -30,15 +31,17 @@ def main():
     #checkConsistency(P,Pf)
     getConsistencyCheck(PLA)
 
-    #get sets A and B    
     AB = getAB(list_input, partitions, B_size)
-    AB = {'A': ['x2'], 'B': ['x1','x4','x0','x3']}
+    #AB = {'A': ['x2'], 'B': ['x1','x4','x0','x3']}
 
     print ("AB Choosen:", AB)
     print ("\n")
-    
+
     PA = getPartitionGroup(AB['A'], partitions)
     PB = getPartitionGroup(AB['B'], partitions)
+
+    #print(partitions)
+    tempPB = copy.deepcopy(PB)
     PB = remove_(PB)
 
     s = []
@@ -56,14 +59,15 @@ def main():
             s.append(PB[i])
 
     PB = s
-
+    
                 
     print ("Set A: ",  PA)
     print ("Set B: ",  PB)
+    print ("Set B: ",  tempPB)
     print ("\n")
 
 
-    COM = getCompatabilityClasses(PA,PB,Pf)
+    COM = getCompatabilityClasses(PA,tempPB,Pf)
     print ("Compatible Classes:",COM)
 
    
@@ -73,52 +77,82 @@ def main():
     
     #MCC = getMCC(compatible_list , B_size)    
     MCC = getMCC(COM , B_size)
-    print ("\nMaximum Compatible Classes:",MCC)
+    print ("\nMaximum Compatible Classes:")
+    #print (MCC)
+    for i in MCC:
+       print (i)
+
+
+    occurs = getOccurences(MCC, tempPB, PLA["N_P"])
+    print ("\nOccurances:")
+    print(occurs)
+
+    gray_l = math.ceil(math.log(len(MCC),2)) #gray length
+    gray_c = gray_code(gray_l)
+        
+  
+
+ 
+    MCC_enc, z, g_code, gray_c= encodeOccurs(occurs, MCC, gray_l, gray_c)
+    print ("\nEncoded MCCs after encoding:", MCC_enc)
+    
+    print("\n Z set after encoding:", z) 
+
+    print("\n g code after encoding:", g_code)
+
+    print("\nLeft over gray codes: ", gray_c)
 
     
-    z = [2,4,8,15] # -15
-    #g_table = {0: [2,2,0,2], 1:[2,2,0,1], 2:[2,1,2,2],3:[2,0,0,1],4:[1,2,0,0],5:[2,1,0,2],6:[2,1,1,0],7:[2,0,1,1],8:[0,0,0,2],9:[2,1,1,1],10:[0,0,1,1],11:[2,0,0,0],12:[2,1,1,0],13:[2,2,1,0],14:[2,0,1,0],15:[1,2,1,2],16:[2,2,1,0]}
-    g_table = [[2,2,0,2],[2,2,0,1],[2,1,2,2],[2,0,0,1],[1,2,0,0],[2,1,0,2],[2,1,1,0],[2,0,1,1],[0,0,0,2],[2,1,1,1],[0,0,1,1],[2,0,0,0],[2,1,1,0],[2,2,1,0],[2,0,1,0],[1,2,1,2],[2,2,1,0]]
-    #g_code = {0: [0,2,2], 1:[0,0,2], 2:[],3:[0,0,1],4:[],5:[0,0,0],6:[1,1,1],7:[1,0,2],8:[],9:[0,0,1],10:[1,0,0],11:[0,1,2],12:[1,1,1],13:[],14:[0,0,1],15:[],16:[]}
-    g_code = [[0,2,2], [0,0,2],[],[0,0,1],[],[0,0,0],[1,1,1],[1,0,2],[],[0,0,1],[1,0,0],[0,1,2],[1,1,1],[],[0,0,1],[],[]]
-    cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
-    cc = [(7,10),(7,15),(0,8,11),(0,4,11),(0,1,2,3,8,9,13,14,15,16),(2,6,12,13,15,16),(0,1,2,4,5)]
-    cc_code = [[1,0,0],[1,0,1],[0,1,0],[0,1,1],[0,0,1],[1,1,1],[0,0,0]]
-    gray = [[1,1,0]]
+    print ("\nMaximum Compatible Classes:",MCC)
+
+
+    g_table =  getGTable(AB['B'], PLA['N_P'], PLA["TT_ip"],  PLA["IP_LABEL"])
+    
 
     prodPB = getProdPB(PB,g_table)
 
     prodCC = {}
 
+    cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
+    
     for i in cc_B:
         temp = []
         for j in i:
             temp.append(prodPB[j])
-        prodCC[cc_B.index(i)] = temp 
+        prodCC[cc_B.index(i)] = temp
+        
+    print("\n g_table: ", g_table)
+
+    z  = step1( g_table, z, g_code)
+
+    print("\nZ tables after step 1:" , z)
+
+        # transform MCCS tuple to list
+        #for i in range(len(MCC)):
+        #    MCC[i] = list(MCC[i])
 
 
-   # print ("Product of CCs::",prodCC)   
 
-    z,g_table,g_code = step2(z,prodCC,g_table,cc_code,g_code)
+    z,g_table,g_code = step2(z,prodCC,g_table,MCC_enc,g_code)
 
-    print (z,"\n",g_table,"\n",g_code)
-   
+    print("\nZ tables after step 2:" , z)
+
+    z,g_table,g_code = step3(z,prodCC,g_table,MCC_enc,g_code)
+        #print (z,"\n",g_table,"\n",g_code)
+
+    print("\nZ tables after step 3:" , z)
     
-    z = [2,14] # -15
-    #g_table = {0: [2,2,0,2], 1:[2,2,0,1], 2:[2,1,2,2],3:[2,0,0,1],4:[1,2,0,0],5:[2,1,0,2],6:[2,1,1,0],7:[2,0,1,1],8:[0,0,0,2],9:[2,1,1,1],10:[0,0,1,1],11:[2,0,0,0],12:[2,1,1,0],13:[2,2,1,0],14:[2,0,1,0],15:[1,2,1,2],16:[2,2,1,0]}
-    g_table = [[2,2,0,2],[2,2,0,1],[2,1,2,2],[2,0,0,1],[1,0,0,0],[2,1,0,2],[2,1,1,0],[2,0,1,1],[0,0,0,0],[2,1,1,1],[0,0,1,1],[2,0,0,0],[2,1,1,0],[2,0,1,0],[1,2,1,2],[1,1,0,0],[0,0,0,1]]
-    #g_code = {0: [0,2,2], 1:[0,0,2], 2:[],3:[0,0,1],4:[],5:[0,0,0],6:[1,1,1],7:[1,0,2],8:[],9:[0,0,1],10:[1,0,0],11:[0,1,2],12:[1,1,1],13:[],14:[0,0,1],15:[],16:[]}
-    g_code = [[0,2,2], [0,0,2],[],[0,0,1],[0,1,1],[0,0,0],[1,1,1],[1,0,2],[0,1,0],[0,0,1],[1,0,0],[0,1,2],[1,1,1],[0,1,1],[],[0,0,0],[0,0,1]]
-    cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
-    cc = [(7,10),(7,15),(0,8,11),(0,4,11),(0,1,2,3,8,9,13,14,15,16),(2,6,12,13,15,16),(0,1,2,4,5)]
-    cc_code = [[1,0,0],[1,0,1],[0,1,0],[0,1,1],[0,0,1],[1,1,1],[0,0,0]]
-    gray = [[1,1,0]]
 
-    z,g_table,g_code = step3(z,prodCC,g_table,cc_code,g_code)
-
+    g_code, g_table = combine_g_entries(g_code, g_table)
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
 
+
+    #for checking in range(0,len(g_table):
+     #   for comparing in range(1, len(g_tabLe):
+      #      for bitsChecking in range(0, len(checking)):
+       #         if(g_table[checking][bitsChecking] == g_table[comparing][bitsComparing]
+            
 
 if __name__== "__main__":
   main()

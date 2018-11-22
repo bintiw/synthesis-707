@@ -4,6 +4,7 @@ __maintainer__ =  "Carlos Lemus & Brandon Wade"
 __email__ = "carlosslemus@yahoo.com, bwade.dev@gmail.com"
 
 from utils import *
+
 """
 getAB will generate a dictionary of sets A and B that can be decomposed
 input is the list of literals whose partition is required and individal partition 
@@ -49,6 +50,7 @@ def getAB(list_input, partitions, B_size):
     P['A'] = AA
     P['B'] = BB
     return P
+
 
 """
 compatabilityClasses will generate all the compatible classes to finding the Maximum Compatability Classes

@@ -13,6 +13,38 @@ import copy
 
 import numpy as np
 
+def getGTable(B, N_P, TT_ip, IP_LABEL):
+    bdex = []
+    for i in B:
+        bdex.append(IP_LABEL.index(i))
+
+    g_table = [[] for _ in range(N_P)]
+    for inp_indx in range(N_P):
+        for x in bdex:
+            g_table[inp_indx].append(TT_ip[inp_indx][x])
+
+    return g_table
+
+def gray_code(n):
+    def gray_code_recurse (g,n):
+        k=len(g)
+        if n<=0:
+            return
+
+        else:
+            for i in range (k-1,-1,-1):
+                char='1'+g[i]
+                g.append(char)
+            for i in range (k-1,-1,-1):
+                g[i]='0'+g[i]
+
+            gray_code_recurse (g,n-1)
+
+    g=['0','1']
+    gray_code_recurse(g,n-1)
+    return g
+
+
 """
 Get product of all elements of MCC for step2
 """
@@ -245,8 +277,6 @@ def getMCC(com,B_size):
 """
 Compatibility check for step2
 """
-
-
 def compatibilityCheck(a,b):
     for i in range(len(a)):   
         if (not((a[i]==2 and b[i] ==0) or (a[i]==2 and b[i] ==1)or (a[i]==0 and b[i] ==0) or (a[i]==1 and b[i] ==1))):
