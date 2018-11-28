@@ -113,8 +113,8 @@ def main():
 
     prodCC = {}
 
-    cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
-    
+    #cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
+    cc_B = MCC
     for i in cc_B:
         temp = []
         for j in i:
@@ -152,7 +152,18 @@ def main():
      #   for comparing in range(1, len(g_tabLe):
       #      for bitsChecking in range(0, len(checking)):
        #         if(g_table[checking][bitsChecking] == g_table[comparing][bitsComparing]
-            
 
+    for j in range(len(PLA.get('TT_ip'))):
+        original_TT =  PLA.get('TT_ip')[j] #read from original TT
+        #print(original_TT) 
+        B_set_TT = original_TT[0:B_size] #strip B set from original TT 
+        #print(B_set_TT) 
+        if(original_TT[0:B_size] in g_table): 
+            code_index = g_table.index(original_TT[0:B_size]) #Find the code index from the Coding Table
+            #print(code_index)
+        new_TT = original_TT[B_size:len(original_TT)]+g_code[code_index] #Replace with code and add remaining A set 
+        new_entry_ip = ''.join(str(e) for e in new_TT) # Create a new PLA entry
+        new_entry_op = ''.join(str(e) for e in PLA.get('TT_op')[j])
+        print (new_entry_ip, new_entry_op)
 if __name__== "__main__":
   main()
