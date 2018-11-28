@@ -12,7 +12,7 @@ import operator
 import copy       
 
 def main():
-    B_size = 5
+    B_size = 4
     PLA = PARSE_PLA("RD84")
     partitions = getPartition(PLA)
 
