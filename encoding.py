@@ -297,7 +297,8 @@ def step3(z,prodCC,g_table,cc_code,g_code):
     return z1,g_table1,g_code1
 
 
-def combine(vecs):
+def combine(ref_vecs):
+    vecs = copy.deepcopy(ref_vecs);
     count = 0
     flag = [0]*len(vecs[0])
     v_ret = vecs[0]
