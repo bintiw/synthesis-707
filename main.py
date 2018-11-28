@@ -13,7 +13,7 @@ import copy
 
 def main():
     B_size = 4
-    PLA = PARSE_PLA("PLA4")
+    PLA = PARSE_PLA("RD84")
     partitions = getPartition(PLA)
 
     #checkConsistency2(PLA)
@@ -84,8 +84,8 @@ def main():
 
 
     occurs = getOccurences(MCC, tempPB, PLA["N_P"])
-    print ("\nOccurances:")
-    print(occurs)
+    #print ("\nOccurances:")
+    #print(occurs)
 
     gray_l = math.ceil(math.log(len(MCC),2)) #gray length
     gray_c = gray_code(gray_l)
@@ -98,7 +98,7 @@ def main():
     
     print("\n Z set after encoding:", z) 
 
-    print("\n g code after encoding:", g_code)
+    #print("\n g code after encoding:", g_code)
 
     print("\nLeft over gray codes: ", gray_c)
 
@@ -121,7 +121,7 @@ def main():
             temp.append(prodPB[j])
         prodCC[cc_B.index(i)] = temp
         
-    print("\n g_table: ", g_table)
+    #print("\n g_table: ", g_table)
 
     z  = step1( g_table, z, g_code)
 
