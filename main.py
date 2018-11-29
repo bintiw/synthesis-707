@@ -124,6 +124,7 @@ def work(file_PLA):
     for i in cc_B:
         temp = []
         for j in i:
+            print (j)
             temp.append(prodPB[j])
         prodCC[cc_B.index(i)] = temp
         
@@ -152,6 +153,16 @@ def work(file_PLA):
     g_code, g_table = combine_g_entries(g_code, g_table)
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
+
+
+    for i in range (len(g_code)):
+        if(g_code[i] == []):
+            if (len(gray_c)==0):
+                print ("We ran out of code...")
+                exit()
+            else:
+                g_code[i] = gray_c.pop()
+            
 
 
     #for checking in range(0,len(g_table):
