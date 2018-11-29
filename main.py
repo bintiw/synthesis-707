@@ -12,8 +12,14 @@ import operator
 import copy       
 
 def main():
+    i,o = work("RD84")
+    while (not(i==o+1)):
+        i,o = work("temp")
+
+
+def work(file_PLA):
     B_size = 4
-    PLA = PARSE_PLA("RD84")
+    PLA = PARSE_PLA(file_PLA)
     partitions = getPartition(PLA)
 
     #checkConsistency2(PLA)
@@ -153,6 +159,22 @@ def main():
       #      for bitsChecking in range(0, len(checking)):
        #         if(g_table[checking][bitsChecking] == g_table[comparing][bitsComparing]
 
+    new_entry=[]
+    f =open("temp","w+")
+    
+    f.write(".i "+ str(len(PLA.get('TT_ip')[0])-B_size+len(g_code[0]))+"\n")
+    f.write(".o "+ str(len(PLA.get('TT_op')[0]))+"\n")
+    f.write(".ilb")
+    for iii in range(len(PLA.get('TT_ip')[0])-B_size+len(g_code[0])):
+        f.write(" ")
+        f.write("x"+str(iii))
+    f.write("\n"+".ob")
+   
+    for iii in range(len(PLA.get('TT_op')[0])):
+        f.write(" ")
+        f.write("y"+str(iii))
+    f.write("\n"+".p ")
+
     for j in range(len(PLA.get('TT_ip'))):
         original_TT =  PLA.get('TT_ip')[j] #read from original TT
         #print(original_TT) 
@@ -162,8 +184,21 @@ def main():
             code_index = g_table.index(original_TT[0:B_size]) #Find the code index from the Coding Table
             #print(code_index)
         new_TT = original_TT[B_size:len(original_TT)]+g_code[code_index] #Replace with code and add remaining A set 
-        new_entry_ip = ''.join(str(e) for e in new_TT) # Create a new PLA entry
-        new_entry_op = ''.join(str(e) for e in PLA.get('TT_op')[j])
-        print (new_entry_ip, new_entry_op)
+        
+        
+        #new_entry_ip = ''.join(str(e) for e in new_TT) # Create a new PLA entry
+        #new_entry_op = ''.join(str(e) for e in PLA.get('TT_op')[j])
+        if ((new_TT+PLA.get('TT_op')[j]) not in new_entry):
+            new_entry.append (new_TT+PLA.get('TT_op')[j])
+    f.write(str(len(new_entry))+"\n")
+    for i in new_entry:
+        ip = i[0:len(i)-len(PLA.get('TT_op')[0])]
+        op = i[len(i)-len(PLA.get('TT_op')[0]): len(i)]
+        #print (ip, op)
+        f.write (''.join(str(e) for e in ip) +' '+''.join(str(e) for e in op)+"\n")
+    f.write(".e")
+    f.close()
+
+    return (len(PLA.get('TT_ip')[0])-B_size+len(g_code[0]),len(PLA.get('TT_op')[0]))
 if __name__== "__main__":
   main()

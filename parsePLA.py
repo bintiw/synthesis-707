@@ -101,11 +101,11 @@ def PARSE_PLA(_PLA_FILENAME):
                         error = 1
 
             if (len(d['IP_LABEL']) != d['N_IP']):
-                print("Error in lenght of input and input labels, .i and .ilb description.")
+                print("Error in length of input and input labels, .i and .ilb description.")
                 return (0)
 
             elif (len(d['OP_LABEL']) != d['N_OP']):
-                print("Error in lenght of output and output labels, .o and .ob description")
+                print("Error in length of output and output labels, .o and .ob description")
                 return (0)
             else:
                 if error == 0:
