@@ -268,6 +268,7 @@ def getMCC(com,B_size):
             #print("Added to (SnC)=",CC)
         #print("-----------")
     ret = []
+    print("C=",CC)  
     for i in remove_MCC_redundant(CC):
         ret.append(tuple(i))
     #print (ret)

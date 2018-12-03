@@ -12,13 +12,18 @@ import operator
 import copy       
 
 def main():
-    i,o = work("RD84")
+    count =0 
+    i,o = work("RD84",count)
+    count+= 1
     while (not(i==o+1)):
-        i,o = work("temp")
+    #while (count < 3):
+       i,o = work("temp",count)
+       count+= 1
 
+def work(file_PLA, count):
 
-def work(file_PLA):
-    B_size = 4
+    print("-----------------PASS ", count + 1, " -------------------")
+    B_size = 3
     PLA = PARSE_PLA(file_PLA)
     partitions = getPartition(PLA)
 
@@ -29,16 +34,16 @@ def work(file_PLA):
     list_output = PLA.get('OP_LABEL')
     Pf = getPartitionGroup(list_output,partitions)
     
-    print ("P: ",P)
+    #print ("P: ",P)
     print ("Pf: ",Pf)
-    print ("\n")
+    #print ("\n")
 
     # Check Consistency
     #checkConsistency(P,Pf)
     getConsistencyCheck(PLA)
 
     AB = getAB(list_input, partitions, B_size)
-    #AB = {'A': ['x2'], 'B': ['x1','x4','x0','x3']}
+    #AB = {'A': ['x0', 'x4', 'x3'], 'B': ['x2', 'x1', 'x5']}
 
     print ("AB Choosen:", AB)
     print ("\n")
@@ -68,11 +73,14 @@ def work(file_PLA):
     
                 
     print ("Set A: ",  PA)
+    print ("\n")
     print ("Set B: ",  PB)
+    print ("\n")
     print ("Set B: ",  tempPB)
     print ("\n")
 
-
+    print("tempPB",tempPB)
+    print("PB", PB)
     COM = getCompatabilityClasses(PA,tempPB,Pf)
     print ("Compatible Classes:",COM)
 
@@ -124,7 +132,7 @@ def work(file_PLA):
     for i in cc_B:
         temp = []
         for j in i:
-            print (j)
+            #print (j)
             temp.append(prodPB[j])
         prodCC[cc_B.index(i)] = temp
         
@@ -165,6 +173,14 @@ def work(file_PLA):
             
 
 
+    bdex = []
+    for i in AB.get('B'):
+        bdex.append(PLA.get('IP_LABEL').index(i))
+
+    print(bdex)
+
+
+                            
     #for checking in range(0,len(g_table):
      #   for comparing in range(1, len(g_tabLe):
       #      for bitsChecking in range(0, len(checking)):
@@ -186,15 +202,24 @@ def work(file_PLA):
         f.write("y"+str(iii))
     f.write("\n"+".p ")
 
+    new_inp = []
+    original_inp =[]
+    bchk = []
     for j in range(len(PLA.get('TT_ip'))):
-        original_TT =  PLA.get('TT_ip')[j] #read from original TT
-        #print(original_TT) 
-        B_set_TT = original_TT[0:B_size] #strip B set from original TT 
-        #print(B_set_TT) 
-        if(original_TT[0:B_size] in g_table): 
-            code_index = g_table.index(original_TT[0:B_size]) #Find the code index from the Coding Table
-            #print(code_index)
-        new_TT = original_TT[B_size:len(original_TT)]+g_code[code_index] #Replace with code and add remaining A set 
+        original_inp = PLA.get('TT_ip')[j] # read from original TT
+        new_inp = []
+        bchk = []
+        for i in range(len(original_inp)):
+            if i not in bdex:
+                new_inp.append(original_inp[i]) #Whatever B we didn't use
+
+        for i in bdex:
+            bchk.append(original_inp[i])
+                        
+        if(bchk in g_table): 
+            code_index = g_table.index(bchk) #Find the code index from the Coding Table
+        #print(new_inp)
+        new_TT = new_inp+g_code[code_index] #Replace with code and add remaining A set 
         
         
         #new_entry_ip = ''.join(str(e) for e in new_TT) # Create a new PLA entry
@@ -210,6 +235,10 @@ def work(file_PLA):
     f.write(".e")
     f.close()
 
+    print("LENGTH OF GCODE---------",len(g_code[0]))
+    print("TT_ip OF GCODE---------",len(PLA.get('TT_ip')[0]))
+    print("B_SIZE---------",B_size)
+    print("TT_op---------",len(PLA.get('TT_op')[0]))
     return (len(PLA.get('TT_ip')[0])-B_size+len(g_code[0]),len(PLA.get('TT_op')[0]))
 if __name__== "__main__":
   main()
