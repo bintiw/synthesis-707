@@ -18,7 +18,7 @@ def main():
 
 
 def work(file_PLA):
-    B_size = 4
+    B_size = 3
     PLA = PARSE_PLA(file_PLA)
     partitions = getPartition(PLA)
 
@@ -46,34 +46,12 @@ def work(file_PLA):
     PA = getPartitionGroup(AB['A'], partitions)
     PB = getPartitionGroup(AB['B'], partitions)
 
-    #print(partitions)
-    tempPB = copy.deepcopy(PB)
-    PB = remove_(PB)
-
-    s = []
-
-    """
-    Removing duplicate or subsets in PB
-    """
-    for i in range(0,len(PB)):
-        flag = 0
-        for j in range(0,len(PB)):
-            if (i!=j):
-                if(PB[i].issubset(PB[j])):
-                    flag = 1
-        if(flag == 0):
-            s.append(PB[i])
-
-    PB = s
-    
-                
+              
     print ("Set A: ",  PA)
     print ("Set B: ",  PB)
-    print ("Set B: ",  tempPB)
-    print ("\n")
 
 
-    COM = getCompatabilityClasses(PA,tempPB,Pf)
+    COM = getCompatabilityClasses(PA,PB,Pf)
     print ("Compatible Classes:",COM)
 
    
@@ -89,7 +67,7 @@ def work(file_PLA):
        print (i)
 
 
-    occurs = getOccurences(MCC, tempPB, PLA["N_P"])
+    occurs = getOccurences(MCC, PB, PLA["N_P"])
     #print ("\nOccurances:")
     #print(occurs)
 
@@ -151,6 +129,15 @@ def work(file_PLA):
     
 
     g_code, g_table = combine_g_entries(g_code, g_table)
+    new_g = []
+    new_c = []
+    for i in range(len(g_code)):
+        if (len(g_table[i])!=0):
+            new_g.append(g_table[i])
+            new_c.append(g_code[i])
+
+    g_table = new_g
+    g_code = new_c
     for i in range(0,len(g_code)):
         print (i,"\t",g_table[i],"\t",g_code[i],"\n")
 
@@ -205,8 +192,11 @@ def work(file_PLA):
     for i in new_entry:
         ip = i[0:len(i)-len(PLA.get('TT_op')[0])]
         op = i[len(i)-len(PLA.get('TT_op')[0]): len(i)]
-        #print (ip, op)
-        f.write (''.join(str(e) for e in ip) +' '+''.join(str(e) for e in op)+"\n")
+        a = ['-' if x==2 else x for x in ip]
+        b = ['-' if x==2 else x for x in op]
+        
+        #print (a, b)
+        f.write (''.join(str(e) for e in a) +' '+''.join(str(e) for e in b)+"\n")
     f.write(".e")
     f.close()
 
