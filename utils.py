@@ -25,6 +25,9 @@ def getGTable(B, N_P, TT_ip, IP_LABEL):
 
     return g_table
 
+"""
+Generate a list of gray codes for encoding
+"""
 def gray_code(n):
     def gray_code_recurse (g,n):
         k=len(g)
