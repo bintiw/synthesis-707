@@ -218,8 +218,21 @@ def step2(z,prodCC,g_table,cc_code,g_code):
     
     g_table1 = new_g_table
     g_code1 = new_g_code
+
+    z2 =[]
+    for i in g_table1:
+        if (i == []):
+            if (g_code1[g_table1.index(i)]==[]):
+                a = g_table1.index(i)
+                del g_table1[a]
+                del g_code1[a]
+                
+    
+    for ll in range(0,len(g_code1)):
+        if(g_code1[ll]==[]):
+            z2.append(ll)
     print("-----------STEP2---Done-----------","\n")  
-    return z1,g_table1,g_code1
+    return z2,g_table1,g_code1
 
 
 """
@@ -228,13 +241,14 @@ Step3 of encoding
 
 def step3(z,prodCC,g_table,cc_code,g_code):
     print("-----------STEP3--------------","\n")
-    #print("Z Set:",z)
-    #print("Prod CCs:",prodCC)
-    #print("G table",g_table)
+    print("Z Set:",z)
+    print("Prod CCs:",prodCC)
+    print("G table",g_table)
     g_table1 = copy.deepcopy(g_table)
     g_code1 = copy.deepcopy(g_code)
     z1 = []
     for i in z:
+        print (i, g_table[i])
         subcubes = expand(g_table[i])
         subcode = []
         subcube = []
@@ -273,8 +287,8 @@ def step3(z,prodCC,g_table,cc_code,g_code):
             new_g_table.append(g_table1[i])
             new_g_code.append(g_code1[i])
     
-    g_table1 = new_g_table
-    g_code1 = new_g_code
+    g_table1 = copy.deepcopy(new_g_table)
+    g_code1 = copy.deepcopy(new_g_code)
 
     for i in g_table1:
         if (i == []):

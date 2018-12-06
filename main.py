@@ -95,7 +95,6 @@ def work(file_PLA, iteration):
             PB = getPartitionGroup(AB['B'], partitions)
 
 
-
             COM = getCompatabilityClasses(PA,PB,Pf)
             #print ("\nCompatible Classes:",COM)
    
