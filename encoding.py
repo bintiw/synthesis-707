@@ -1,3 +1,8 @@
+__author__ = "Carlos Lemus & Brandon Wade & Binayak Tiwari"
+__version__ = "1.0.1"
+__maintainer__ =  "Carlos Lemus & Brandon Wade & Binayak Tiwari"
+__email__ = "carlosslemus@yahoo.com, bwade.dev@gmail.com, binayaktiwari@gmail.com"
+
 import copy
 
 def isAdj(test, refs, diff_l, MCC_enc):
@@ -54,7 +59,6 @@ Return occurences in a dictionary with occurences
 i.e [[0][1][4]...} where the index is the MCC
 """
 def getOccurences(MCC, PB, N_P):
-    print(PB)
     occurs = [[] for _ in range(N_P)]
     for i in range(len(MCC)):
         for ii in MCC[i]:
@@ -63,7 +67,6 @@ def getOccurences(MCC, PB, N_P):
                     continue
                 else:
                     occurs[j].append(i)
-    print(occurs)
             
                    
     return occurs
@@ -171,6 +174,7 @@ def step1(g_table, z, g_code):
                 if(g_code[g_table.index(s[i])] and g_code[g_table.index(s[i+1])]):
                     temp_z.remove(cube)
                     g_table[cube] = []
+    print("\nZ tables after step 1:" , z)
     print("-----------STEP1---Done-----------","\n")  
     return temp_z
     
@@ -231,8 +235,10 @@ def step2(z,prodCC,g_table,cc_code,g_code):
     for ll in range(0,len(g_code1)):
         if(g_code1[ll]==[]):
             z2.append(ll)
+    print("\nZ tables after step 2:" , z2)
     print("-----------STEP2---Done-----------","\n")  
     return z2,g_table1,g_code1
+
 
 
 """
@@ -241,9 +247,9 @@ Step3 of encoding
 
 def step3(z,prodCC,g_table,cc_code,g_code):
     print("-----------STEP3--------------","\n")
-    print("Z Set:",z)
-    print("Prod CCs:",prodCC)
-    print("G table",g_table)
+    #print("Z Set:",z)
+    #print("Prod CCs:",prodCC)
+    #print("G table",g_table)
     g_table1 = copy.deepcopy(g_table)
     g_code1 = copy.deepcopy(g_code)
     z1 = []
@@ -304,6 +310,7 @@ def step3(z,prodCC,g_table,cc_code,g_code):
         
     
     #print (z1,g_table1,g_code1)
+    print("\nZ tables after step 3:" , z1)
     print("-----------STEP3---Done-----------","\n")  
 
     return z1,g_table1,g_code1

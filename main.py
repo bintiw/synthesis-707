@@ -1,7 +1,7 @@
-__author__ = "Binayak Tiwari"
+__author__ = "Carlos Lemus & Brandon Wade & Binayak Tiwari"
 __version__ = "1.0.1"
-__maintainer__ =  "Binayak Tiwari"
-__email__ = "binayaktiwari@gmail.com"
+__maintainer__ =  "Carlos Lemus & Brandon Wade & Binayak Tiwari"
+__email__ = "carlosslemus@yahoo.com, bwade.dev@gmail.com, binayaktiwari@gmail.com"
 
 from utils import *
 from encoding import *
@@ -10,18 +10,26 @@ from compatabilityClasses import *
 from itertools import combinations
 import math
 import operator
-import copy       
+import copy
+import itertools
+   
 
 def main():
     iteration = 0
-    i,o = work("RD84", iteration)
+    filename = input("Please enter the name of the file:")
+    B_size = int(input("Please enter an LB size:"))
+    i,o = work(filename, iteration, B_size)
     while (not(i==o+1)):
         iteration += 1
-        i,o = work("temp", iteration)
+        i,o = work("temp", iteration, B_size)
 
+    
+    PLA = PARSE_PLA("temp")
+    getConsistencyCheck(PLA)
+    print("Please check temp file for new table")
 
-def work(file_PLA, iteration):
-    B_size = 3
+def work(file_PLA, iteration, B_size):
+    #B_size = 3
     bdex = []
 
     print("\n---------------------------------------------------------------------------")
@@ -66,7 +74,11 @@ def work(file_PLA, iteration):
     #   print (i)
 
     gray_l = math.ceil(math.log(len(MCC),2)) #gray length
-    gray_c = gray_code(gray_l)
+    gray_c = []
+    for x in map(''.join, itertools.product('01', repeat=gray_l)):
+        gray_c.append(x)
+    #gray_c = gray_code(gray_l)
+    #print("Ordered Codes:", gray_c)
 
     if gray_l >= B_size:
         decomp = 0
@@ -74,7 +86,7 @@ def work(file_PLA, iteration):
         decomp = 1
         
     while(not decomp and B_size < len(list_input)):
-        #print("\nNo meaningful decomposition, selecting new A and B")
+        print("\nNo meaningful decomposition, selecting new A and B")
         for comb in combinations(list_input, B_size):
             AB['A'] = []
             AB['B'] = []
@@ -86,7 +98,7 @@ def work(file_PLA, iteration):
                     AB['A'].append(inp)
             bdex = []
 
-            #print ("\nNew AB Choosen:", AB)
+            print ("\nNew AB Choosen:", AB)
             
             for i in AB['B']:
                 bdex.append(PLA.get('IP_LABEL').index(i))
@@ -127,14 +139,9 @@ def work(file_PLA, iteration):
        print (i)
     print("\n")
     
-
     occurs = getOccurences(MCC, PB, PLA["N_P"])
-    #print ("\nOccurances:")
-    #print(occurs)
-
-
-        
-  
+    print ("\nOccurances:")
+    print(occurs)
 
  
     MCC_enc, z, g_code, gray_c= encodeOccurs(occurs, MCC, gray_l, gray_c)
@@ -154,7 +161,7 @@ def work(file_PLA, iteration):
     
 
     prodPB = getProdPB(PB,g_table)
-
+    
     prodCC = {}
 
     #cc_B = [[2],[6],[0],[4],[9,5,1],[8],[3,7]]
@@ -175,7 +182,6 @@ def work(file_PLA, iteration):
         # transform MCCS tuple to list
         #for i in range(len(MCC)):
         #    MCC[i] = list(MCC[i])
-
 
 
     z,g_table,g_code = step2(z,prodCC,g_table,MCC_enc,g_code)
