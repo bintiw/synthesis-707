@@ -14,7 +14,7 @@ def foundIn(code, table):
     for cde in table:
         count = 0
         for i in range(len(cde)):
-            if cde[i] == 2 or code[i] == cde[i]:
+            if cde[i] == 2 or code[i] == cde[i] or code[i] == 2:
                 count += 1
             else:
                 break
