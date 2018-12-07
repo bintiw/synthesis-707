@@ -28,7 +28,6 @@ def main():
     getConsistencyCheck(PLA)
     print("Please check temp file for new table")
 
-
 def work(file_PLA, iteration, B_size):
     #B_size = 3
     bdex = []
@@ -140,7 +139,6 @@ def work(file_PLA, iteration, B_size):
        print (i)
     print("\n")
     
-    print(PB)
     occurs = getOccurences(MCC, PB, PLA["N_P"])
     print ("\nOccurances:")
     print(occurs)
@@ -220,7 +218,6 @@ def work(file_PLA, iteration, B_size):
         for val in range(len(g_code[line])):
             s += str(g_code[line][val])
         print(s)
-
 
     for i in range (len(g_code)):
         if(g_code[i] == []):
