@@ -262,8 +262,9 @@ def work(file_PLA, iteration, B_size):
         for i in bdex:
             bchk.append(original_inp[i])
 
-        newbchk = foundIn(bchk, g_table) 
-        code_index = g_table.index(newbchk) #Find the code index from the Coding Table
+        newbchk = foundIn(bchk, g_table)
+        if(newbchk):
+            code_index = g_table.index(newbchk) #Find the code index from the Coding Table
         new_TT = new_inp+g_code[code_index] #Replace with code and add remaining A set   
         #print(new_TT)
         if ((new_TT+PLA.get('TT_op')[iii]) not in new_entry):
