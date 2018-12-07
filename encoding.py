@@ -50,12 +50,11 @@ def split(v):
     
 
 """
-Return occurences in a dictionary with appended MCCS
-i.e {0: [3, 4 ,5 ,7]} where 3 is the occurences
-and 4,5,7 is the MCCS it occurs in
+Return occurences in a dictionary with occurences 
+i.e [[0][1][4]...} where the index is the MCC
 """
 def getOccurences(MCC, PB, N_P):
-    
+    print(PB)
     occurs = [[] for _ in range(N_P)]
     for i in range(len(MCC)):
         for ii in MCC[i]:
@@ -64,19 +63,22 @@ def getOccurences(MCC, PB, N_P):
                     continue
                 else:
                     occurs[j].append(i)
-                
+    print(occurs)
+            
                    
     return occurs
 
+"""
+Encodes the MCCs with a gray code given the number of occurances
+for each cube
+"""
 def encodeOccurs(occurs, MCC, gray_l, gray_c):
     MCC_enc = [0]*len(MCC)
     gray_f = [0]*len(gray_c)
-    #gray_f = [1,0,0,0,0,0,0,0]
     z = []
     g_table = [0]*len(occurs)
     
 
-    #print(MCC_enc)
     target = 2**(gray_l-1)
     while(target >= 0):
         for cube in range(len(occurs)):
@@ -85,8 +87,6 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
                 continue
 
             if(len(occurs[cube]) == target):
-##                print(occurs[cube])
-##                print("\n")
                 temp_is_enc = []
                 temp_not_enc = []
                 for i in range(0,len(occurs[cube])): # through MCCs
@@ -94,8 +94,6 @@ def encodeOccurs(occurs, MCC, gray_l, gray_c):
                         temp_is_enc.append(occurs[cube][i])
                     else:
                         temp_not_enc.append(occurs[cube][i])
-               # print("is enc",temp_is_enc)
-                #print("nt enc",temp_not_enc)
 
                 if(not temp_not_enc): #everything encoded
                     code = isAdj(MCC_enc[temp_is_enc[0]], temp_is_enc, target/2, MCC_enc)
@@ -159,7 +157,8 @@ def str2lst(d, length):
     return list_ret
 
 """
-Encoding Step 1
+Encoding Step 1 
+This splits the don't cares at one instance and compares them to the gtable
 """
 
 def step1(g_table, z, g_code):
@@ -168,7 +167,6 @@ def step1(g_table, z, g_code):
     for cube in z:
         s = split(g_table[cube])
         for i in range(0,len(s),2):
-            #print(cube)
             if s[i] in g_table and s[i+1] in g_table:
                 if(g_code[g_table.index(s[i])] and g_code[g_table.index(s[i+1])]):
                     temp_z.remove(cube)
@@ -345,8 +343,6 @@ def combine_g_entries(g_code, g_table):
                 g_table.append(combined)
                 g_code.append(g_code[i])
                 for ii in inds:
-                    #del g_table[ii]
-                    #del g_code[ii]
                     g_table[ii] = []
                     g_code[ii] = []
     return g_code, g_table

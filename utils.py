@@ -25,6 +25,9 @@ def getGTable(B, N_P, TT_ip, IP_LABEL):
 
     return g_table
 
+"""
+Generate a list of gray codes for encoding
+"""
 def gray_code(n):
     def gray_code_recurse (g,n):
         k=len(g)
@@ -272,6 +275,7 @@ def getMCC(com,B_size):
             #print("Added to (SnC)=",CC)
         #print("-----------")
     ret = []
+    print("C=",CC)  
     for i in remove_MCC_redundant(CC):
         ret.append(tuple(i))
     #print (ret)

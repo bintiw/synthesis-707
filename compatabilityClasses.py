@@ -73,7 +73,6 @@ def getCompatabilityClasses(PA, PB, Pf):
     PBt = []
     D = dict()
     D['P(A)'] = PA
-    #print (range(1,len(PB)))
     for i in range(len(PB)-1):
         for ii in range(i+1,len(PB)):
             PBp = list(PB)
@@ -82,15 +81,7 @@ def getCompatabilityClasses(PA, PB, Pf):
             del PBp[i]
 
             D['P(B'+str(i)+'_'+str(ii)+')'] = PBp
-            #print (D)
-            #print (i," and ",ii,": ",PBp)
-            #print ("\n")
-            #print (len(PB))
-            #print ("D: ", D)
-            #print ("\n")
-            #PT = getPartitionGroup(['A','B'+str(i)+'_'+str(ii)],D)
             PT = getIntersections(D['P(A)'], D['P(B'+str(i)+'_'+str(ii)+")"])
-            #print ("PT: ",PT)
             if(checkCompatability(PT, Pf)):
                 PBo['P(B'+str(i)+'_'+str(ii)+')'] = PBp
                 PBt.append((i, ii))
