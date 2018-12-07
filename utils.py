@@ -7,11 +7,19 @@ from parsePLA import *
 import itertools
 import sys
 import copy
-
-
-
-
 import numpy as np
+
+def foundIn(code, table):
+
+    for cde in table:
+        count = 0
+        for i in range(len(cde)):
+            if cde[i] == 2 or code[i] == cde[i]:
+                count += 1
+            else:
+                break
+        if count == len(cde):
+            return cde
 
 def getGTable(B, N_P, TT_ip, IP_LABEL):
     bdex = []

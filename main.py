@@ -193,8 +193,8 @@ def work(file_PLA, iteration, B_size):
 
     #print("\nZ tables after step 3:" , z)
     
-
-    g_code, g_table = combine_g_entries(g_code, g_table)
+    
+    #g_code, g_table = combine_g_entries(g_code, g_table)
     new_g = []
     new_c = []
     for i in range(len(g_code)):
@@ -225,7 +225,7 @@ def work(file_PLA, iteration, B_size):
                 print ("We ran out of code...")
                 exit()
             else:
-                g_code[i] = gray_c.pop()
+               g_code[i] = gray_c.pop()
             
 
 
@@ -262,11 +262,10 @@ def work(file_PLA, iteration, B_size):
         for i in bdex:
             bchk.append(original_inp[i])
 
-        if(bchk in g_table): 
-            code_index = g_table.index(bchk) #Find the code index from the Coding Table
-            #print(code_index)
+        newbchk = foundIn(bchk, g_table) 
+        code_index = g_table.index(newbchk) #Find the code index from the Coding Table
         new_TT = new_inp+g_code[code_index] #Replace with code and add remaining A set   
-
+        #print(new_TT)
         if ((new_TT+PLA.get('TT_op')[iii]) not in new_entry):
             new_entry.append (new_TT+PLA.get('TT_op')[iii])
         
