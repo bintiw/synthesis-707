@@ -194,7 +194,7 @@ def work(file_PLA, iteration, B_size):
     #print("\nZ tables after step 3:" , z)
     
     
-    #g_code, g_table = combine_g_entries(g_code, g_table)
+    g_code, g_table = combine_g_entries(g_code, g_table)
     new_g = []
     new_c = []
     for i in range(len(g_code)):
