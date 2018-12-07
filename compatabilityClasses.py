@@ -47,6 +47,15 @@ def getAB(list_input, partitions, B_size):
         BB.append(list_input[B[i]])
 
     P = dict()
+    # ##MY ADD##
+    # AA = []
+    # BB = []
+    # for i in range(len(list_input)):
+    #     if i < B_size:
+    #         BB.append(list_input[i])
+    #     else:
+    #         AA.append(list_input[i])
+    # ##TILL HERE MY ADD##
     P['A'] = AA
     P['B'] = BB
     return P

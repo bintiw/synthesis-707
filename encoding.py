@@ -1,3 +1,8 @@
+__author__ = "Carlos Lemus & Brandon Wade & Binayak Tiwari"
+__version__ = "1.0.1"
+__maintainer__ =  "Carlos Lemus & Brandon Wade & Binayak Tiwari"
+__email__ = "carlosslemus@yahoo.com, bwade.dev@gmail.com, binayaktiwari@gmail.com"
+
 import copy
 
 def isAdj(test, refs, diff_l, MCC_enc):
@@ -54,7 +59,6 @@ Return occurences in a dictionary with occurences
 i.e [[0][1][4]...} where the index is the MCC
 """
 def getOccurences(MCC, PB, N_P):
-    print(PB)
     occurs = [[] for _ in range(N_P)]
     for i in range(len(MCC)):
         for ii in MCC[i]:
@@ -63,7 +67,6 @@ def getOccurences(MCC, PB, N_P):
                     continue
                 else:
                     occurs[j].append(i)
-    print(occurs)
             
                    
     return occurs
@@ -171,6 +174,7 @@ def step1(g_table, z, g_code):
                 if(g_code[g_table.index(s[i])] and g_code[g_table.index(s[i+1])]):
                     temp_z.remove(cube)
                     g_table[cube] = []
+    print("\nZ tables after step 1:" , z)
     print("-----------STEP1---Done-----------","\n")  
     return temp_z
     
@@ -218,8 +222,23 @@ def step2(z,prodCC,g_table,cc_code,g_code):
     
     g_table1 = new_g_table
     g_code1 = new_g_code
+
+    z2 =[]
+    for i in g_table1:
+        if (i == []):
+            if (g_code1[g_table1.index(i)]==[]):
+                a = g_table1.index(i)
+                del g_table1[a]
+                del g_code1[a]
+                
+    
+    for ll in range(0,len(g_code1)):
+        if(g_code1[ll]==[]):
+            z2.append(ll)
+    print("\nZ tables after step 2:" , z2)
     print("-----------STEP2---Done-----------","\n")  
-    return z1,g_table1,g_code1
+    return z2,g_table1,g_code1
+
 
 
 """
@@ -235,6 +254,7 @@ def step3(z,prodCC,g_table,cc_code,g_code):
     g_code1 = copy.deepcopy(g_code)
     z1 = []
     for i in z:
+        print (i, g_table[i])
         subcubes = expand(g_table[i])
         subcode = []
         subcube = []
@@ -273,8 +293,8 @@ def step3(z,prodCC,g_table,cc_code,g_code):
             new_g_table.append(g_table1[i])
             new_g_code.append(g_code1[i])
     
-    g_table1 = new_g_table
-    g_code1 = new_g_code
+    g_table1 = copy.deepcopy(new_g_table)
+    g_code1 = copy.deepcopy(new_g_code)
 
     for i in g_table1:
         if (i == []):
@@ -290,6 +310,7 @@ def step3(z,prodCC,g_table,cc_code,g_code):
         
     
     #print (z1,g_table1,g_code1)
+    print("\nZ tables after step 3:" , z1)
     print("-----------STEP3---Done-----------","\n")  
 
     return z1,g_table1,g_code1
