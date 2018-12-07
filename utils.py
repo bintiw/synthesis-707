@@ -184,8 +184,10 @@ def getConsistencyCheck(d1):
         #print (str1,str2)
         if(str1 in TT_.keys()):
             if(str2 != TT_[str1]):
-                print("Consistency Fail")
-                sys.exit("Consistency Fail")
+                if ((compatibilityCheck(list(TT_[str1]),list(str2)))):
+                    print (list(TT_[str1]),list(str2))
+                    print("Consistency Fail")
+                    sys.exit("Consistency Fail")
         TT_[str1] = str2
 
 
@@ -295,7 +297,7 @@ Compatibility check for step2
 """
 def compatibilityCheck(a,b):
     for i in range(len(a)):   
-        if (not((a[i]==2 and b[i] ==0) or (a[i]==2 and b[i] ==1)or (a[i]==0 and b[i] ==0) or (a[i]==1 and b[i] ==1))):
+        if (not((a[i]==2 and b[i] ==0) or (a[i]==2 and b[i] ==1)or (a[i]==0 and b[i] ==0) or (a[i]==1 and b[i] ==1) or (a[i]==0 and b[i] ==2) or (a[i]==1 and b[i] ==2))):
             return 0
         
     return 1
